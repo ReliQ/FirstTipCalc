@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">First Tip Advisor &amp; Calculator</string>
+    <string name="app_shortname">First Tip</string>
+    <string name="app_description">A simple, full-featured Tip Advisor &amp; Calculator.</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_refresh">Reset</string>
+    <string name="action_manip">Manipulate Bill</string>
+    <string name="bill_text_view">Bill</string>
+    <string name="dollar_text_view">$</string>
+    <string name="bill_edit_text">0.0</string>
+    <string name="tip_text_view">Base Tip</string>
+    <string name="tip_seekbar_text_view">Tip</string>
+    <string name="tip_edit_text">0.15</string>
+    <string name="dollar_sign_text">Dollar Sign</string>
+    <string name="final_tip_text_view">Final Tip</string>
+    <string name="final_text_view">Final Bill</string>
+    <string name="final_bill_edit_text">$0.0</string>
+    <string name="final_tip_percentage_edit_text">0.0</string>
+    <string name="final_tip_edit_text">$0.0</string>
+    <string name="change_tip_text_view">Change Tip</string>
+    <string name="auto_tipping_text_view">Waiter/Waitress Rating</string>
+    <string name="intro_text_view">Introduction &amp; Behaviour</string>
+    <string name="intro_friendly_text_view">Made a Friendly Introduction</string>
+    <string name="intro_courtesy_text_view">Used elements of courtesy (ie. \'please\' &amp; \'thank you\')</string>
+    <string name="intro_specials_text_view">Requested Permission to Announce Specials</string>
+    <string name="intro_opinion_text_view">Offered Assistance with Menu Selections</string>
+    <string name="intro_pro_text_view">Acted in a professional Manner</string>
+    <string name="traits_text_view">Good Traits</string>
+    <string name="traits_attentive_text_view">Remained Attentive</string>
+    <string name="traits_groomed_text_view">Server was Well-Groomed</string>
+    <string name="traits_judgement_text_view">Showed Good Judgement</string>
+    <string name="rules_text_view">Common Serving Rules</string>
+    <string name="rules_food_text_view">Served food from my Left Side</string>
+    <string name="rules_drinks_text_view">Poured drinks from my Right Side</string>
+    <string name="traits_clear_text_view">Cleared table from my Right Side</string>
+    <string name="available_text_view">Availability</string>
+    <string name="available_bad_radiobutton">Bad</string>
+    <string name="available_ok_radiobutton">OK</string>
+    <string name="available_good_radiobutton">Good</string>
+    <string name="chronometer_text">Chronometer</string>
+    <string name="time_waiting_text_view">Time Waiting for Service</string>
+    <string name="start_chronometer_button">Start</string>
+    <string name="pause_chronometer_button">Pause</string>
+    <string name="reset_chronometer_button">Reset</string>
+    <string name="problems_text_view">Problems Solving Skills</string>
+
+    <string-array name="problem_solving">
+        <item>No Problem Encountered</item>
+        <item>Bad</item>
+        <item>OK</item>
+        <item>Good</item>
+    </string-array>
+
+    <string name="title_activity_preferences">Settings</string>
+    <string name="pref_keyboard">Open with Keypad</string>
+    <string name="pref_keyboard_summ">Check to show keyboard on start-up.</string>
+    <string name="pref_usage">Usage Policy</string>
+    <string name="pref_usage_summ">First Tip Advisor &amp; Calculator is for personal and non-commercial use only.</string>
+    <string name="pref_version">@string/app_name</string>
+    <string name="pref_version_summ">Version 0.8.0 beta | Build 18 | &#169; ReliQ Artz</string>
+
+</resources>

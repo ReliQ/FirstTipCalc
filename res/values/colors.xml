@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="actionbar">@color/firstblue3</color>
+    <color name="actionbar_border">#a4ecbe</color>
+    
+    <color name="firstblue1">#4d90fe</color>
+    <color name="firstblue2">#4787ed</color>
+    <color name="firstblue3">#00adef</color>
+    
+    <color name="firstblue3trans">#8500adef</color>
+    
+    <color name="emphasis">#31b6e7</color>
+    <color name="bg_gray">#cecbce</color>
+    <color name="white">#ffffff</color>
+</resources>
