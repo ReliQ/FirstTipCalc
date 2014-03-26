@@ -46,7 +46,3 @@ public class Preferences extends PreferenceActivity {
 	}
 
 }
-ItemSelected(item);
-	}
-
-}
