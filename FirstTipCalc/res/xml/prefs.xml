@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory android:title="General" android:key="prefs_general">
+        <CheckBoxPreference 
+            android:key="pref_keyboard"
+            android:title="@string/pref_keyboard"
+            android:summary="@string/pref_keyboard_summ"
+            android:defaultValue="false" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="About" android:key="prefs_about">
+        <Preference 
+            android:key="pref_usage"
+            android:title="@string/pref_usage"
+            android:summary="@string/pref_usage_summ" />
+        <Preference 
+            android:key="pref_version"
+            android:title="@string/pref_version"
+            android:summary="@string/pref_version_summ">
+            <intent android:action="android.intent.action.VIEW"
+		            android:data="http://www.reliqartz.com" />
+		</Preference>
+    </PreferenceCategory>
+
+</PreferenceScreen>
