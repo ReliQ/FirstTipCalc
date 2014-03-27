@@ -10,6 +10,7 @@
     <string name="bill_text_view">Bill</string>
     <string name="dollar_text_view">$</string>
     <string name="bill_edit_text">0.0</string>
+    <string name="bill_bg_image_desc">Bill and tip background</string>
     <string name="tip_text_view">Base Tip</string>
     <string name="tip_seekbar_text_view">Tip</string>
     <string name="tip_edit_text">0.15</string>
@@ -59,6 +60,10 @@
     <string name="pref_usage">Usage Policy</string>
     <string name="pref_usage_summ">First Tip Advisor &amp; Calculator is for personal and non-commercial use only.</string>
     <string name="pref_version">@string/app_name</string>
-    <string name="pref_version_summ">Version 0.8.0 beta | Build 18 | &#169; ReliQ Artz</string>
+    <string name="pref_version_summ">Version 0.9.0 beta | &#169; ReliQ Artz</string>
+    
+    <string name="title_activity_main">Main Activity</string>
+    <string name="title_section1">Calculate</string>
+    <string name="title_section2">Split</string>
 
 </resources>

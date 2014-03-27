@@ -1,19 +1,32 @@
+/**
+ * Copyright 2014 ReliQ Artz
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.reliqartz.firsttipcalc;
 
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -22,19 +35,22 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.Spinner;
 
-public class TipCalcFragment extends Fragment implements OnSharedPreferenceChangeListener {
+public class CalcFragment extends Fragment implements OnSharedPreferenceChangeListener {
 	
-	private double billBeforeTip;
-	private double tipAmount;
-	private double finalTipAmount;
-	private double finalBill;
+	private static final String TOTAL_BILL = "TOTAL_BILL";
+	private static final String CURRENT_TIP = "CURRENT_TIP";
+	private static final String BILL_WITHOUT_TIP = "BILL_WITHOUT_TIP";
 	
-	private int[] checklistValues = new int[15];
+	private double mBillBeforeTip;
+	private double mTipAmount;
+	private double mFinalTipAmount;
+	private double mFinalBill;
+	
+	private int[] mChecklistValues = new int[15];
 	
 	//Preferences
-	private static boolean startWithKeyboard = false;
+	private static boolean sStartWithKeyboard = false;
 	
 	EditText billBeforeTipET;
 	EditText tipAmountET;
@@ -60,31 +76,41 @@ public class TipCalcFragment extends Fragment implements OnSharedPreferenceChang
 	RadioButton availableOkRadio;
 	RadioButton availableGoodRadio;
 	
-	Spinner problemsSpinner;
-	
-	Button startChronometerButton;
-	Button pauseChronometerButton;
-	Button resetChronometerButton;
-	
-	/* Optional Chrono
-	Chronometer timeWaitingChronometer;
-	long secondsYouWaited = 0;
-	TextView timeWaitingTextView;
-	*/
 	
 	
-	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onCreate(android.os.Bundle)
+	 */
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		if(savedInstanceState != null){
+			mBillBeforeTip = savedInstanceState.getDouble(BILL_WITHOUT_TIP);
+			mTipAmount = savedInstanceState.getDouble(CURRENT_TIP);
+			mFinalBill = savedInstanceState.getDouble(TOTAL_BILL);
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
+	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-		return inflater.inflate(R.layout.tip_calc_fragment, container, false);
+		return inflater.inflate(R.layout.calc_fragment, container, false);
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onActivityCreated(android.os.Bundle)
+	 */
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState){
 		super.onActivityCreated(savedInstanceState);
 		loadPreferences();
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onStart()
+	 */
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -92,24 +118,33 @@ public class TipCalcFragment extends Fragment implements OnSharedPreferenceChang
 		setUpCheckBoxes();
 		//setButtonOnClickListeners();
 		addChangeListenerToRadios();
-		addItemSelectedListenerToSpinner();	
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onResume()
+	 */
 	public void onResume(){
 		super.onResume();
-		getStatics();
-		if(!startWithKeyboard)
+		if(!sStartWithKeyboard)
 			getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	}
 	
-	private void getStatics(){
-		billBeforeTip = ((CrazyTipCalc) getActivity()).billBeforeTip;
-		tipAmount = ((CrazyTipCalc) getActivity()).tipAmount;
-		finalTipAmount = ((CrazyTipCalc) getActivity()).finalTipAmount;
-		finalBill = ((CrazyTipCalc) getActivity()).finalBill;
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onSaveInstanceState(android.os.Bundle)
+	 */
+	public void onSaveInstanceState(Bundle outState){
+		super.onSaveInstanceState(outState);
+		
+		outState.putDouble(BILL_WITHOUT_TIP, mBillBeforeTip);
+		outState.putDouble(CURRENT_TIP, mTipAmount);
+		outState.putDouble(TOTAL_BILL, mFinalBill);
 	}
 	
+	
+	/**
+	 * Setup controllers. 
+	 */
 	private void initControls(){
 		
 		billBeforeTipET = (EditText) getView().findViewById(R.id.billEditText);
@@ -137,21 +172,12 @@ public class TipCalcFragment extends Fragment implements OnSharedPreferenceChang
 		availableBadRadio = (RadioButton) getView().findViewById(R.id.availableBadRadio);
 		availableOkRadio = (RadioButton) getView().findViewById(R.id.availableOkRadio);
 		availableGoodRadio = (RadioButton) getView().findViewById(R.id.availableGoodRadio);
-				
-		problemsSpinner = (Spinner) getView().findViewById(R.id.problemsSpinner);
 		
-		/* Optional Chrono
-		startChronometerButton = (Button) findViewById(R.id.startChronometerButton);
-		pauseChronometerButton = (Button) findViewById(R.id.pauseChronometerButton);
-		resetChronometerButton = (Button) findViewById(R.id.resetChronometerButton);
-		timeWaitingChronometer = (Chronometer) findViewById(R.id.timeWaitingChronometer);
-		timeWaitingTextView = (TextView) findViewById(R.id.timeWaitingTextView);
-		*/
 	}
 	
 	private void loadPreferences(){
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-		startWithKeyboard = settings.getBoolean("pref_keyboard", false);
+		sStartWithKeyboard = settings.getBoolean("pref_keyboard", false);
 		settings.registerOnSharedPreferenceChangeListener(this);
 	}
 	
@@ -174,9 +200,9 @@ public class TipCalcFragment extends Fragment implements OnSharedPreferenceChang
 		public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
 			
 			try{
-				billBeforeTip = Double.parseDouble(arg0.toString());
+				mBillBeforeTip = Double.parseDouble(arg0.toString());
 			}catch(NumberFormatException e){
-				billBeforeTip = 0.0;
+				mBillBeforeTip = 0.0;
 			}
 			updateTipAndFinalBill();
 			
@@ -189,8 +215,8 @@ public class TipCalcFragment extends Fragment implements OnSharedPreferenceChang
 		@Override
 		public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
 			
-			tipAmount = (tipSeekBar.getProgress()) * .01; 
-			tipAmountET.setText(String.format("%.02f", tipAmount));
+			mTipAmount = (tipSeekBar.getProgress()) * .01; 
+			tipAmountET.setText(String.format("%.02f", mTipAmount));
 			updateTipAndFinalBill();
 			
 		}
@@ -211,12 +237,15 @@ public class TipCalcFragment extends Fragment implements OnSharedPreferenceChang
 	
 	
 
+	/**
+	 * Set checkbox values.
+	 */
 	private void setUpCheckBoxes(){
 		
 		friendlyCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				checklistValues[0] = (friendlyCheckBox.isChecked())?4:0;
+				mChecklistValues[0] = (friendlyCheckBox.isChecked())?4:0;
 				updateTipAndFinalBill();
 			}
 		});
@@ -224,7 +253,7 @@ public class TipCalcFragment extends Fragment implements OnSharedPreferenceChang
 		specialsCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				checklistValues[1] = (specialsCheckBox.isChecked())?1:0;
+				mChecklistValues[1] = (specialsCheckBox.isChecked())?1:0;
 				updateTipAndFinalBill();
 			}
 		});
@@ -232,7 +261,7 @@ public class TipCalcFragment extends Fragment implements OnSharedPreferenceChang
 		opinionCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				checklistValues[2] = (opinionCheckBox.isChecked())?2:0;
+				mChecklistValues[2] = (opinionCheckBox.isChecked())?2:0;
 				updateTipAndFinalBill();
 			}
 		});
@@ -240,7 +269,7 @@ public class TipCalcFragment extends Fragment implements OnSharedPreferenceChang
 		courtesyCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				checklistValues[3] = (courtesyCheckBox.isChecked())?1:0;
+				mChecklistValues[3] = (courtesyCheckBox.isChecked())?1:0;
 				updateTipAndFinalBill();
 			}
 		});
@@ -248,7 +277,7 @@ public class TipCalcFragment extends Fragment implements OnSharedPreferenceChang
 		foodCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				checklistValues[4] = (foodCheckBox.isChecked())?3:0;
+				mChecklistValues[4] = (foodCheckBox.isChecked())?3:0;
 				updateTipAndFinalBill();
 			}
 		});
@@ -256,7 +285,7 @@ public class TipCalcFragment extends Fragment implements OnSharedPreferenceChang
 		drinksCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				checklistValues[5] = (drinksCheckBox.isChecked())?2:0;
+				mChecklistValues[5] = (drinksCheckBox.isChecked())?2:0;
 				updateTipAndFinalBill();
 			}
 		});
@@ -264,7 +293,7 @@ public class TipCalcFragment extends Fragment implements OnSharedPreferenceChang
 		attentiveCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				checklistValues[6] = (attentiveCheckBox.isChecked())?1:0;
+				mChecklistValues[6] = (attentiveCheckBox.isChecked())?1:0;
 				updateTipAndFinalBill();
 			}
 		});
@@ -272,7 +301,7 @@ public class TipCalcFragment extends Fragment implements OnSharedPreferenceChang
 		judgementCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				checklistValues[7] = (judgementCheckBox.isChecked())?1:0;
+				mChecklistValues[7] = (judgementCheckBox.isChecked())?1:0;
 				updateTipAndFinalBill();
 			}
 		});
@@ -280,7 +309,7 @@ public class TipCalcFragment extends Fragment implements OnSharedPreferenceChang
 		groomedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				checklistValues[8] = (groomedCheckBox.isChecked())?1:0;
+				mChecklistValues[8] = (groomedCheckBox.isChecked())?1:0;
 				updateTipAndFinalBill();
 			}
 		});
@@ -292,124 +321,36 @@ public class TipCalcFragment extends Fragment implements OnSharedPreferenceChang
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				// TODO Auto-generated method stub
-				checklistValues[9] = (availableBadRadio.isChecked())?-2:0;
-				checklistValues[10] = (availableOkRadio.isChecked())?1:0;
-				checklistValues[11] = (availableGoodRadio.isChecked())?3:0;
+				mChecklistValues[9] = (availableBadRadio.isChecked())?-2:0;
+				mChecklistValues[10] = (availableOkRadio.isChecked())?1:0;
+				mChecklistValues[11] = (availableGoodRadio.isChecked())?3:0;
 				updateTipAndFinalBill();
 			}
 
 		});
 	}
 	
-	private void addItemSelectedListenerToSpinner(){
-		problemsSpinner.setOnItemSelectedListener(new OnItemSelectedListener(){
-
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
-				
-				checklistValues[12] = (problemsSpinner.getSelectedItem()).equals("Bad")?-1:0;
-				checklistValues[13] = (problemsSpinner.getSelectedItem()).equals("OK")?1:0;
-				checklistValues[14] = (problemsSpinner.getSelectedItem()).equals("Good")?2:0;
-				updateTipAndFinalBill();
-				
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
-	}
-	
-	
-	/*
-	 * Check auto area and update
-	 * */
+	/**
+	 * Check auto area and update.
+	 */
 	private void setFinalTip(){
 		int checklistTotal = 0;
-		
-		for(int item : checklistValues)
+		for(int item : mChecklistValues)
 			checklistTotal += item;
-			
 		finalTipAmountET.setText(String.format("%.02f", (tipSeekBar.getProgress()) * .01 + checklistTotal*.01));
 	}
 	
 	private void updateTipAndFinalBill(){
-		
 		setFinalTip();
-		
-		finalTipAmount = Double.parseDouble(finalTipAmountET.getText().toString());
-		finalBill = billBeforeTip + (finalTipAmount * billBeforeTip);
-		
-		finalTipValueET.setText("$" + String.format("%.02f", (finalTipAmount*billBeforeTip)));
-		finalBillET.setText("$" + String.format("%.02f", finalBill));
+		mFinalTipAmount = Double.parseDouble(finalTipAmountET.getText().toString());
+		mFinalBill = mBillBeforeTip + (mFinalTipAmount * mBillBeforeTip);
+		finalTipValueET.setText("$" + String.format("%.02f", (mFinalTipAmount*mBillBeforeTip)));
+		finalBillET.setText("$" + String.format("%.02f", mFinalBill));
 	}
-	
-	
-	/* 
-	 * Chronometer Stuff:
-	 * */
-	/*
-	private void setButtonOnClickListeners(){
-		startChronometerButton.setOnClickListener(new OnClickListener(){
 
-			@Override
-			public void onClick(View arg0) {
-
-				int stoppedMilliseconds = 0;
-				
-				String chronoText = timeWaitingChronometer.getText().toString();
-				String array[] = chronoText.split(":");
-				
-				if(array.length == 2){
-					stoppedMilliseconds = Integer.parseInt(array[0]) * 60 * 1000 + Integer.parseInt(array[1]) * 1000;
-				}else if(array.length == 3){
-					stoppedMilliseconds = Integer.parseInt(array[0]) * 60 * 60 * 1000 + Integer.parseInt(array[1]) * 60 * 1000 + Integer.parseInt(array[2]) * 1000;
-				}
-				
-				timeWaitingChronometer.setBase(SystemClock.elapsedRealtime() - stoppedMilliseconds);
-				
-				secondsYouWaited = Long.parseLong(array[1]);
-				
-				updateTipBasedOnTimeWaited(secondsYouWaited);
-				
-				timeWaitingChronometer.start();
-			}
-			
-		});
-		
-		pauseChronometerButton.setOnClickListener(new OnClickListener(){
-
-			@Override
-			public void onClick(View v) {
-				timeWaitingChronometer.stop();	
-			}
-			
-		});
-		
-		resetChronometerButton.setOnClickListener(new OnClickListener(){
-
-			@Override
-			public void onClick(View v) {
-				timeWaitingChronometer.setBase(SystemClock.elapsedRealtime());
-				secondsYouWaited = 0;
-			}
-			
-		});
-	}
-	
-	private void updateTipBasedOnTimeWaited(long secondsYouWaited){
-		checklistValues[9] = (secondsYouWaited > 10)?-2:2;
-		
-		setTipFromWaitressChecklist();
-		updateTipAndFinalBill();
-	}
-	
-	*/
-
+	/* (non-Javadoc)
+	 * @see android.content.SharedPreferences.OnSharedPreferenceChangeListener#onSharedPreferenceChanged(android.content.SharedPreferences, java.lang.String)
+	 */
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		loadPreferences();

@@ -3,13 +3,13 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
-        android:fragment="com.reliqartz.firsttipcalc.Settings$GeneralPreferenceFragment"
+        android:fragment="com.reliqartz.firsttipcalc.SettingsActivity$GeneralPreferenceFragment"
         android:title="@string/pref_header_general" />
     <header
-        android:fragment="com.reliqartz.firsttipcalc.Settings$NotificationPreferenceFragment"
+        android:fragment="com.reliqartz.firsttipcalc.SettingsActivity$NotificationPreferenceFragment"
         android:title="@string/pref_header_notifications" />
     <header
-        android:fragment="com.reliqartz.firsttipcalc.Settings$DataSyncPreferenceFragment"
+        android:fragment="com.reliqartz.firsttipcalc.SettingsActivity$DataSyncPreferenceFragment"
         android:title="@string/pref_header_data_sync" />
 
 </preference-headers>
