@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">First Tip Advisor &amp; Calculator</string>
+    <string name="app_name">First Tip Calculator &amp; Advisor</string>
     <string name="app_shortname">First Tip</string>
-    <string name="app_description">A simple, full-featured Tip Advisor &amp; Calculator.</string>
+    <string name="app_description">A simple, full-featured Tip Calculator &amp; Advisor.</string>
     <string name="action_settings">Settings</string>
     <string name="action_refresh">Reset</string>
     <string name="action_manip">Manipulate Bill</string>
@@ -53,11 +53,11 @@
     <string name="pref_keyboard">Open with Keypad</string>
     <string name="pref_keyboard_summ">Check to show keyboard on start-up.</string>
     <string name="pref_usage">Usage Policy</string>
-    <string name="pref_usage_summ">First Tip Advisor &amp; Calculator is for personal and non-commercial use only.</string>
+    <string name="pref_usage_summ">First Tip Calculator &amp; Advisor is for personal and non-commercial use only.</string>
     <string name="pref_version">@string/app_name</string>
-    <string name="pref_version_summ">Version 0.9.0 beta | &#169; ReliQ Artz</string>
+    <string name="pref_version_summ">Version 0.9.0 beta reVa | &#169; ReliQ Artz</string>
     
-    <string name="title_activity_main">Main Activity</string>
+    <string name="title_activity_main">Tip Calculator &amp; Advisor</string>
     <string name="title_section1">Calculate</string>
     <string name="title_section2">Split</string>
 
