@@ -37,6 +37,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class CalcFragment extends Fragment implements OnSharedPreferenceChangeListener {
+	private static final String TAG = "FirstTip/Calc";
 	
 	private static final String TOTAL_BILL = "TOTAL_BILL";
 	private static final String CURRENT_TIP = "CURRENT_TIP";
@@ -62,11 +63,9 @@ public class CalcFragment extends Fragment implements OnSharedPreferenceChangeLi
 	CheckBox friendlyCheckBox;
 	CheckBox specialsCheckBox;
 	CheckBox opinionCheckBox;
-	
 	CheckBox courtesyCheckBox;
 	CheckBox foodCheckBox;
 	CheckBox drinksCheckBox;
-	
 	CheckBox attentiveCheckBox;
 	CheckBox judgementCheckBox;
 	CheckBox groomedCheckBox;
@@ -116,7 +115,6 @@ public class CalcFragment extends Fragment implements OnSharedPreferenceChangeLi
 		super.onStart();
 		initControls();
 		setUpCheckBoxes();
-		//setButtonOnClickListeners();
 		addChangeListenerToRadios();
 		
 	}
@@ -216,7 +214,7 @@ public class CalcFragment extends Fragment implements OnSharedPreferenceChangeLi
 		public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
 			
 			mTipAmount = (tipSeekBar.getProgress()) * .01; 
-			tipAmountET.setText(String.format("%.02f", mTipAmount));
+			tipAmountET.setText(String.format("%.0f", mTipAmount*100) + "%");
 			updateTipAndFinalBill();
 			
 		}
@@ -333,17 +331,17 @@ public class CalcFragment extends Fragment implements OnSharedPreferenceChangeLi
 	/**
 	 * Check auto area and update.
 	 */
-	private void setFinalTip(){
+	private double getFinalTip(){
 		int checklistTotal = 0;
 		for(int item : mChecklistValues)
 			checklistTotal += item;
-		finalTipAmountET.setText(String.format("%.02f", (tipSeekBar.getProgress()) * .01 + checklistTotal*.01));
+		return tipSeekBar.getProgress() * .01 + checklistTotal*.01;
 	}
 	
 	private void updateTipAndFinalBill(){
-		setFinalTip();
-		mFinalTipAmount = Double.parseDouble(finalTipAmountET.getText().toString());
+		mFinalTipAmount = getFinalTip();
 		mFinalBill = mBillBeforeTip + (mFinalTipAmount * mBillBeforeTip);
+		finalTipAmountET.setText(String.format("%.0f", mFinalTipAmount*100) + "%");
 		finalTipValueET.setText("$" + String.format("%.02f", (mFinalTipAmount*mBillBeforeTip)));
 		finalBillET.setText("$" + String.format("%.02f", mFinalBill));
 	}

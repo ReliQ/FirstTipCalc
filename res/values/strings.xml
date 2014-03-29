@@ -13,12 +13,12 @@
     <string name="bill_bg_image_desc">Bill and tip background</string>
     <string name="tip_text_view">Base Tip</string>
     <string name="tip_seekbar_text_view">Tip</string>
-    <string name="tip_edit_text">0.15</string>
+    <string name="tip_edit_text">15%</string>
     <string name="dollar_sign_text">Dollar Sign</string>
     <string name="final_tip_text_view">Final Tip</string>
     <string name="final_text_view">Final Bill</string>
     <string name="final_bill_edit_text">$0.0</string>
-    <string name="final_tip_percentage_edit_text">0.0</string>
+    <string name="final_tip_percentage_edit_text">15%</string>
     <string name="final_tip_edit_text">$0.0</string>
     <string name="change_tip_text_view">Change Tip</string>
     <string name="auto_tipping_text_view">Waiter/Waitress Rating</string>
@@ -49,6 +49,10 @@
         <item>Good</item>
     </string-array>
 
+    <string name="title_activity_main">Tip Calculator &amp; Advisor</string>
+    <string name="title_section1">Calculate</string>
+    <string name="title_section2">Split</string>
+    
     <string name="title_activity_preferences">Settings</string>
     <string name="pref_keyboard">Open with Keypad</string>
     <string name="pref_keyboard_summ">Check to show keyboard on start-up.</string>
@@ -56,9 +60,5 @@
     <string name="pref_usage_summ">First Tip Calculator &amp; Advisor is for personal and non-commercial use only.</string>
     <string name="pref_version">@string/app_name</string>
     <string name="pref_version_summ">Version 0.9.0 beta reVa | &#169; ReliQ Artz</string>
-    
-    <string name="title_activity_main">Tip Calculator &amp; Advisor</string>
-    <string name="title_section1">Calculate</string>
-    <string name="title_section2">Split</string>
 
 </resources>
