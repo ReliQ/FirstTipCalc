@@ -1,18 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Key colors -->
-    <color name="actionbar">@color/firstblue3</color>
-    <color name="actionbar_border">#a4ecbe</color>
+    <color name="actionbar">@color/firstblue1</color>
+    <color name="actionbar_border">@color/sweepgreen</color>
+    <color name="accents">@color/spokgreen</color>
     
     <!-- Variants -->
-    <color name="firstblue1">#4d90fe</color>
-    <color name="firstblue2">#4787ed</color>
+    <color name="almostwhite">#fefefe</color>
+    <color name="arch_emphasis">#3ac2ff</color>
+    <color name="barblue_bright">#40c3ff</color>
+    <color name="bg_gray">#cecbce</color>
+    <color name="dark_essence">#111111</color>
+    <color name="emphasis">#31b6e7</color>
+    <color name="firstblue1">#00aaeb</color>
+    <color name="firstblue1_trans">#8500aaeb</color>
+    <color name="firstblue2">#00adef</color>
+    <color name="firstblue2_trans">#8500adef</color>
     <color name="firstblue3">#00adef</color>
-    <color name="firstblue3trans">#8500adef</color>
+    <color name="firstblue3_trans">#8500adef</color>
+    <color name="hashblue">#40c3ff</color>
+    <color name="hazeblue_dark">#345f6f</color>
+    <color name="hazeblue_dark_trans">#85345f6f</color>
+    <color name="hazeblue_dark_trans_50">#50345f6f</color>
+    <color name="hazeblue_dark_trans_25">#25345f6f</color>
+    <color name="spokgreen">#6cff85</color>
+    <color name="sweepgreen">#a4ecbe</color>
+    <color name="subtle_green">#dffbe4</color>
+    <color name="gentle_gray">#f9f9f9</color>
+    <color name="gentle_shade">#25dedede</color>
+    <color name="jetline_gray">#f8f8f8</color>
+    <color name="sleek_page">#12eeeeee</color>
     
     <!-- Simple colors -->
-    <color name="emphasis">#31b6e7</color>
-    <color name="bg_gray">#cecbce</color>
+    <color name="black">#000000</color>
     <color name="white">#ffffff</color>
     <color name="transparent">#00ffffff</color>
 </resources>
