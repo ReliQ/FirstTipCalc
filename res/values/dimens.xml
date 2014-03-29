@@ -3,8 +3,11 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">5dp</dimen>
     <dimen name="activity_vertical_margin">5dp</dimen>
+    
+    <!-- custom -->
     <dimen name="LitMargin">3dp</dimen>
     <dimen name="top1Margin">10dp</dimen>
     <dimen name="abitmoretop_padding">8dp</dimen>
+    <dimen name="big_wave">25dp</dimen>
 
 </resources>

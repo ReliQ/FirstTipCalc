@@ -23,9 +23,10 @@
 			    android:layout_height="wrap_content"
 			    android:background="@color/transparent"
 			    android:orientation="vertical"
+			    android:paddingBottom="@dimen/big_wave"
 			    android:paddingLeft="@dimen/activity_horizontal_margin"
 			    android:paddingRight="@dimen/activity_horizontal_margin"
-			    android:paddingTop="@dimen/top1Margin" >
+			    android:paddingTop="@dimen/big_wave" >
 
 			    <LinearLayout
 			        android:layout_width="match_parent"
@@ -98,13 +99,14 @@
 		
 		    <TextView
 		        android:id="@+id/autoTippingTextView"
-		        android:text="@string/auto_tipping_text_view"
-		        style="@style/DivisionHeader" />
+		        style="@style/DivisionHeader"
+		        android:layout_marginTop="0dp"
+		        android:text="@string/auto_tipping_text_view" />
 		
 		    <LinearLayout
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
-		        android:background="@color/gentle_gray"
+		        android:background="@color/gentle_shade"
 		        android:orientation="vertical"
 		        android:padding="10dp" >
 
