@@ -109,9 +109,8 @@ public class MainActivity extends FragmentActivity implements
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item){
-		Intent i; // 
-		Log.d(TAG, "Manu item selected: "+ item.getItemId());
-		
+		final Intent i;
+		Log.d(TAG, "Menu item selected: "+ item.getItemId());
 		switch(item.getItemId()){
 			case R.id.action_refresh:
 				i = getIntent(); finish();

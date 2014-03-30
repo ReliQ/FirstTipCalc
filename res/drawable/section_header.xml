@@ -14,9 +14,9 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<set xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shareInterpolator="false">
-       <translate android:fromXDelta="-100%" android:toXDelta="0%"
-        android:fromYDelta="0%" android:toYDelta="0%"
-        android:duration="500"/>
- </set>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <size android:width="1000dp" android:height="1dp" />
+    <solid android:color="@color/emphasis"/>
+</shape>

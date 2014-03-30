@@ -50,7 +50,7 @@ public class CalcFragment extends Fragment implements OnSharedPreferenceChangeLi
 	
 	private int[] mChecklistValues = new int[15];
 	
-	//Preferences
+	// Preferences
 	private static boolean sStartWithKeyboard = false;
 	
 	EditText billBeforeTipET;

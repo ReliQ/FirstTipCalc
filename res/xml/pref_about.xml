@@ -14,9 +14,19 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<set xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shareInterpolator="false">
-       <translate android:fromXDelta="-100%" android:toXDelta="0%"
-        android:fromYDelta="0%" android:toYDelta="0%"
-        android:duration="500"/>
- </set>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <Preference
+        android:key="pref_policy"
+        android:title="@string/pref_usage"
+        android:summary="@string/pref_usage_summ"
+        android:selectable="false" />
+    
+    <Preference
+        android:key="pref_policy"
+        android:title="@string/pref_version"
+        android:summary="@string/pref_version_summ"
+        android:enabled="false"
+        android:selectable="false" />
+
+</PreferenceScreen>
