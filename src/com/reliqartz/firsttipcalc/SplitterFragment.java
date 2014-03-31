@@ -37,7 +37,7 @@ import com.reliqartz.firsttipcalc.interfaces.FinalBillChangeListener;
  * 
  */
 public class SplitterFragment extends Fragment implements FinalBillChangeListener {
-	private static final String TAG = "FirstTip/Splitter";
+	public static final String TAG = "FirstTip/Splitter";
 	
 	private static final String ARG_PARAM1 = "param1";
 	private static final String FINAL_BILL = "TOTAL_BILL";
@@ -97,8 +97,9 @@ public class SplitterFragment extends Fragment implements FinalBillChangeListene
 	@Override
 	public void onStart() {
 		super.onStart();
-		this.init();
 		Log.d(TAG, "On Start");
+		
+		this.init();
 	}
 	
 	
@@ -122,7 +123,7 @@ public class SplitterFragment extends Fragment implements FinalBillChangeListene
 		if(mBillTextView != null){
 			mBillTextView.setText(MainActivity.sCurrencySymbol + String.format("%.02f", mFinalBill));
 		}else{
-			Log.v(TAG, "Bill view not initialized. No update.");
+			Log.w(TAG, "Bill view not initialized. No update.");
 		}
 	}
 	
@@ -130,6 +131,8 @@ public class SplitterFragment extends Fragment implements FinalBillChangeListene
 	 * Initialize controls
 	 */
 	private void init() {
+		Log.i(TAG, "getView(): " +getView());
+		
 		mBillTextView = (TextView) getView().findViewById(R.id.billTextView);
 		mSplitForSpinner = (Spinner) getView().findViewById(R.id.splitForSpinner);
 		mSplitEvenRadioButton = (RadioButton) getView().findViewById(R.id.splitEvenRadioButton);
@@ -140,6 +143,8 @@ public class SplitterFragment extends Fragment implements FinalBillChangeListene
 		mSplitRatioResultsListView = (ListView) getView().findViewById(R.id.splitRatioResultsListView);
 		
 		mBillTextView.setText(MainActivity.sCurrencySymbol + String.format("%.02f", mFinalBill));
+		
+		Log.i(TAG, "mBillTextView: " +mBillTextView);
 	}
 	
 }

@@ -75,15 +75,21 @@ OnSharedPreferenceChangeListener, FinalBillChangeListener {
 		
 		loadPreferences();
 		
-		mCalculator = new CalcFragment();
-		mSplitter = new SplitterFragment();
-		
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		
+		// initialize fragments
+		if(savedInstanceState == null){
+			mCalculator = new CalcFragment();
+			mSplitter = new SplitterFragment();
+		}else{
+			mCalculator = (CalcFragment) getSupportFragmentManager().getFragment(savedInstanceState, CalcFragment.TAG);
+			mSplitter = (SplitterFragment) getSupportFragmentManager().getFragment(savedInstanceState, SplitterFragment.TAG);
+		}
 
 		// Create the adapter that will return a fragment for each of the three
-		// primary sections of the app.
+		// primary sections of the application.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(
 				getSupportFragmentManager());
 
@@ -123,6 +129,9 @@ OnSharedPreferenceChangeListener, FinalBillChangeListener {
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
+		
+		getSupportFragmentManager().putFragment(outState, CalcFragment.TAG, mCalculator);
+		getSupportFragmentManager().putFragment(outState, SplitterFragment.TAG, mSplitter);
 	}
 
 
@@ -188,7 +197,6 @@ OnSharedPreferenceChangeListener, FinalBillChangeListener {
 	
 	@Override
 	public void onFinalBillChanged(double finalBill) {
-		Log.v(TAG, "Final bill recieved: " + finalBill);
 		mSplitter.onFinalBillChanged(finalBill);
 	}
 	

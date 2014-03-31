@@ -38,7 +38,7 @@ import android.widget.TextView;
 import com.reliqartz.firsttipcalc.interfaces.FinalBillChangeListener;
 
 public class CalcFragment extends Fragment {
-	private static final String TAG = "FirstTip/Calc";
+	public static final String TAG = "FirstTip/Calc";
 
 	private static final int PROGRESS_MAX = 100;
 	private static final String TOTAL_BILL = "TOTAL_BILL";
