@@ -39,15 +39,18 @@ import com.reliqartz.firsttipcalc.interfaces.FinalBillChangeListener;
 
 public class CalcFragment extends Fragment {
 	private static final String TAG = "FirstTip/Calc";
-	
+
+	private static final int PROGRESS_MAX = 100;
 	private static final String TOTAL_BILL = "TOTAL_BILL";
 	private static final String CURRENT_TIP = "CURRENT_TIP";
 	private static final String BILL_WITHOUT_TIP = "BILL_WITHOUT_TIP";
+	private static final String SEEKBAR_TIP = "SEEKBAR_TIP";
 	
 	private double mBillBeforeTip;
 	private double mTipAmount;
 	private double mFinalTipAmount = 0.0;
 	private double mFinalBill = 0.0;
+	private int mSeekBarTip = 0;
 	
 	private int[] mChecklistValues = new int[15];
 	private String mCurrency;
@@ -88,6 +91,24 @@ public class CalcFragment extends Fragment {
 			mFinalBill = savedInstanceState.getDouble(TOTAL_BILL);
 		}
 	}
+	
+	
+
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onActivityCreated(android.os.Bundle)
+	 */
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		
+		if(savedInstanceState != null){
+			mSeekBarTip = savedInstanceState.getInt(SEEKBAR_TIP, mSeekBarTip);
+		}else{
+			mSeekBarTip = MainActivity.sBaseTip;
+		}
+	}
+
+
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
@@ -125,6 +146,7 @@ public class CalcFragment extends Fragment {
 		outState.putDouble(BILL_WITHOUT_TIP, mBillBeforeTip);
 		outState.putDouble(CURRENT_TIP, mTipAmount);
 		outState.putDouble(TOTAL_BILL, mFinalBill);
+		outState.putInt(SEEKBAR_TIP, mTipSeekBar.getProgress());
 	}
 	
 	
@@ -132,6 +154,8 @@ public class CalcFragment extends Fragment {
 	 * Setup controllers. 
 	 */
 	private void init(){
+		Log.v(TAG, "starting tip: " + mSeekBarTip);
+		
 		mCurrency = MainActivity.sCurrencySymbol;
 		
 		mBillBeforeTipET = (EditText) getView().findViewById(R.id.billEditText);
@@ -140,7 +164,6 @@ public class CalcFragment extends Fragment {
 		mFinalTipValueET = (EditText) getView().findViewById(R.id.finalTipEditText);
 		mFinalBillET = (EditText) getView().findViewById(R.id.finalBillEditText);
 		mTipSeekBar = (SeekBar) getView().findViewById(R.id.tipSeekBar);
-		mTipSeekBar.setProgress(MainActivity.sBaseTip);
 		
 		mBillBeforeTipET.addTextChangedListener(billBeforeTipListener);
 		mTipSeekBar.setOnSeekBarChangeListener(tipSeekBarChangeListener);
@@ -164,6 +187,11 @@ public class CalcFragment extends Fragment {
 		
 		mCurrencyTextView.setText(mCurrency);
 		mFinalBillET.setText(mCurrency + String.format("%.02f", mFinalBill));
+		mFinalTipValueET.setText(mCurrency + String.format("%.02f", mFinalTipAmount));
+		mTipSeekBar.setMax(PROGRESS_MAX);
+		mTipSeekBar.setProgress(mSeekBarTip);
+		mTipAmount = (mTipSeekBar.getProgress()) * .01; 
+		mTipAmountET.setText(String.format("%.0f", mTipAmount*100) + "%");
 		
 		setUpCheckBoxes();
 		addChangeListenerToRadios();

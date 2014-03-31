@@ -76,6 +76,7 @@
 			            android:layout_marginTop="0dp"
 			            android:layout_weight="3"
 			            android:ems="4"
+			            android:max="100"
 			            android:progress="15" />
 
 			        <EditText

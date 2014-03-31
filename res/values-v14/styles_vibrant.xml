@@ -35,7 +35,7 @@
     </style>
 
     <style name="ActionBar.Solid.Vibrant" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@drawable/ab_solid_vibrant</item>
+        <item name="android:background">@color/actionbar</item> <!-- @drawable/ab_solid_vibrant -->
         <item name="android:backgroundStacked">@drawable/ab_stacked_solid_vibrant</item>
         <item name="android:backgroundSplit">@drawable/ab_bottom_solid_vibrant</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Vibrant</item>
