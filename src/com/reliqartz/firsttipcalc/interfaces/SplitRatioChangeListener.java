@@ -17,9 +17,9 @@
 package com.reliqartz.firsttipcalc.interfaces;
 
 /**
- * Listener for change in final bill.
+ * Listener for change in split ratio.
  * @author Patrick Reid
  */
-public interface FinalBillChangeListener {
-	public void onFinalBillChanged(double finalBill);
+public interface SplitRatioChangeListener {
+	public void onSplitRatioChanged(double ratio);
 }

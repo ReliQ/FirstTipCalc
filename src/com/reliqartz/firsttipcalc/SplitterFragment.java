@@ -25,10 +25,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.reliqartz.firsttipcalc.interfaces.FinalBillChangeListener;
+import com.reliqartz.firsttipcalc.interfaces.SplitRatioChangeListener;
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass. 
@@ -36,7 +39,8 @@ import com.reliqartz.firsttipcalc.interfaces.FinalBillChangeListener;
  * method to create an instance of this fragment.
  * 
  */
-public class SplitterFragment extends Fragment implements FinalBillChangeListener {
+public class SplitterFragment extends Fragment implements FinalBillChangeListener,
+		SplitRatioChangeListener, OnCheckedChangeListener {
 	public static final String TAG = "FirstTip/Splitter";
 	
 	private static final String ARG_PARAM1 = "param1";
@@ -46,6 +50,7 @@ public class SplitterFragment extends Fragment implements FinalBillChangeListene
 	
 	private TextView mBillTextView;
 	private Spinner mSplitForSpinner;
+	private RadioGroup mSplitRadioGroup;
 	private RadioButton mSplitEvenRadioButton, mSplitRatioRadioButton;
 	private TextView mSplitInfoTextView, mSplitOnTextView;
 	private LinearLayout mSplitEvenResultLayout;
@@ -97,11 +102,8 @@ public class SplitterFragment extends Fragment implements FinalBillChangeListene
 	@Override
 	public void onStart() {
 		super.onStart();
-		Log.d(TAG, "On Start");
-		
 		this.init();
 	}
-	
 	
 
 	/* (non-Javadoc)
@@ -118,14 +120,23 @@ public class SplitterFragment extends Fragment implements FinalBillChangeListene
 		Log.v(TAG, "Final bill recieved as: " + finalBill);
 		
 		mFinalBill = finalBill;
-		
-		// FIXME mBillTextView is null after rotation
 		if(mBillTextView != null){
 			mBillTextView.setText(MainActivity.sCurrencySymbol + String.format("%.02f", mFinalBill));
 		}else{
-			Log.w(TAG, "Bill view not initialized. No update.");
+			Log.v(TAG, "Bill view not initialized. No update.");
 		}
 	}
+
+	@Override
+	public void onSplitRatioChanged(double ratio) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onCheckedChanged(RadioGroup group, int checkedId) {
+		Log.v(TAG, "RadioGroup onCheckedChanged.");
+	} 
 	
 	/**
 	 * Initialize controls
@@ -135,6 +146,7 @@ public class SplitterFragment extends Fragment implements FinalBillChangeListene
 		
 		mBillTextView = (TextView) getView().findViewById(R.id.billTextView);
 		mSplitForSpinner = (Spinner) getView().findViewById(R.id.splitForSpinner);
+		mSplitRadioGroup = (RadioGroup) getView().findViewById(R.id.splitForRadioGroup);
 		mSplitEvenRadioButton = (RadioButton) getView().findViewById(R.id.splitEvenRadioButton);
 		mSplitRatioRadioButton = (RadioButton) getView().findViewById(R.id.splitRatioRadioButton);
 		mSplitInfoTextView = (TextView) getView().findViewById(R.id.splitInfoTextView);
@@ -143,8 +155,7 @@ public class SplitterFragment extends Fragment implements FinalBillChangeListene
 		mSplitRatioResultsListView = (ListView) getView().findViewById(R.id.splitRatioResultsListView);
 		
 		mBillTextView.setText(MainActivity.sCurrencySymbol + String.format("%.02f", mFinalBill));
-		
-		Log.i(TAG, "mBillTextView: " +mBillTextView);
+		mSplitRadioGroup.clearCheck();
+		mSplitRadioGroup.setOnCheckedChangeListener(this);
 	}
-	
 }
