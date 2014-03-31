@@ -33,6 +33,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.widget.TextView;
 
 import com.reliqartz.firsttipcalc.interfaces.FinalBillChangeListener;
 
@@ -45,8 +46,8 @@ public class CalcFragment extends Fragment {
 	
 	private double mBillBeforeTip;
 	private double mTipAmount;
-	private double mFinalTipAmount;
-	private double mFinalBill;
+	private double mFinalTipAmount = 0.0;
+	private double mFinalBill = 0.0;
 	
 	private int[] mChecklistValues = new int[15];
 	private String mCurrency;
@@ -73,7 +74,7 @@ public class CalcFragment extends Fragment {
 	private RadioButton mAvailableOkRadio;
 	private RadioButton mAvailableGoodRadio;
 	
-	
+	private TextView mCurrencyTextView;
 	
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreate(android.os.Bundle)
@@ -158,6 +159,11 @@ public class CalcFragment extends Fragment {
 		mAvailableBadRadio = (RadioButton) getView().findViewById(R.id.availableBadRadio);
 		mAvailableOkRadio = (RadioButton) getView().findViewById(R.id.availableOkRadio);
 		mAvailableGoodRadio = (RadioButton) getView().findViewById(R.id.availableGoodRadio);
+		
+		mCurrencyTextView = (TextView) getView().findViewById(R.id.dollarSignTextView);
+		
+		mCurrencyTextView.setText(mCurrency);
+		mFinalBillET.setText(mCurrency + String.format("%.02f", mFinalBill));
 		
 		setUpCheckBoxes();
 		addChangeListenerToRadios();

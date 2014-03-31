@@ -38,7 +38,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 OnSharedPreferenceChangeListener, FinalBillChangeListener {
 	private static final String TAG = "FirstTip/Main";
 	
-	private static final String KEYBOARD_PREF_KEY = "pref_keybooard";
+	private static final String KEYBOARD_PREF_KEY = "pref_keyboard";
 	private static final String CURRENCY_PREF_KEY = "pref_currency";
 	private static final String BASE_TIP_PREF_KEY = "pref_base_tip";
 	
@@ -251,6 +251,9 @@ OnSharedPreferenceChangeListener, FinalBillChangeListener {
 		sCurrencySymbol = settings.getString(CURRENCY_PREF_KEY, sCurrencySymbol);
 		sBaseTip = Integer.parseInt(settings.getString(BASE_TIP_PREF_KEY, sBaseTip + "").replaceAll("[\\D]",""));
 		settings.registerOnSharedPreferenceChangeListener(this);
+		
+		Log.v(TAG, "Currency: " + sCurrencySymbol);
+		Log.v(TAG, "Base Tip: " + sBaseTip);
 	}
 
 }
