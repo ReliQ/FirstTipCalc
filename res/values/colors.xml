@@ -17,7 +17,8 @@
 <resources>
     <!-- Key colors -->
     <color name="actionbar">@color/firstblue1</color>
-    <color name="actionbar_border">@color/sweepgreen</color>
+    <color name="actionbar_popup_menu">@color/firstblue2</color>
+    <color name="actionbar_dropdown_item_pressed">@color/barblue_bright</color>
     <color name="actionbar_tab_text">@color/emphasis</color>
     <color name="accents">@color/spokgreen</color>
     

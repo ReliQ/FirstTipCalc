@@ -16,12 +16,13 @@
 
 package com.reliqartz.firsttipcalc;
 
-import java.util.Locale;
-
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -31,10 +32,24 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends FragmentActivity implements
-		ActionBar.TabListener {
-	private static final String TAG = "FirstTip/Main";
+import com.reliqartz.firsttipcalc.interfaces.FinalBillChangeListener;
 
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener, 
+OnSharedPreferenceChangeListener, FinalBillChangeListener {
+	private static final String TAG = "FirstTip/Main";
+	
+	private static final String KEYBOARD_PREF_KEY = "pref_keybooard";
+	private static final String CURRENCY_PREF_KEY = "pref_currency";
+	private static final String BASE_TIP_PREF_KEY = "pref_base_tip";
+	
+	// Preferences
+	public static boolean sStartWithKeyboard = false;
+	public static int sBaseTip = 15;
+	public static String sCurrencySymbol = "$";
+	
+	private CalcFragment mCalculator;
+	private SplitterFragment mSplitter;
+	
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
 	 * fragments for each of the sections. We use a
@@ -57,7 +72,12 @@ public class MainActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		
+		loadPreferences();
+		
+		mCalculator = new CalcFragment();
+		mSplitter = new SplitterFragment();
+		
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -81,7 +101,7 @@ public class MainActivity extends FragmentActivity implements
 						actionBar.setSelectedNavigationItem(position);
 					}
 				});
-
+		
 		// For each of the sections in the app, add a tab to the action bar.
 		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
 			// Create a tab with text corresponding to the page title defined by
@@ -92,8 +112,20 @@ public class MainActivity extends FragmentActivity implements
 					.setText(mSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
 		}
+		
 	}
 	
+	
+	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.FragmentActivity#onSaveInstanceState(android.os.Bundle)
+	 */
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+	}
+
+
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
 	 */
@@ -153,6 +185,20 @@ public class MainActivity extends FragmentActivity implements
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 	}
+	
+	@Override
+	public void onFinalBillChanged(double finalBill) {
+		Log.v(TAG, "Final bill recieved: " + finalBill);
+		mSplitter.onFinalBillChanged(finalBill);
+	}
+	
+	/* (non-Javadoc)
+	 * @see android.content.SharedPreferences.OnSharedPreferenceChangeListener#onSharedPreferenceChanged(android.content.SharedPreferences, java.lang.String)
+	 */
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		loadPreferences();
+	}
 
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -167,16 +213,12 @@ public class MainActivity extends FragmentActivity implements
 		@Override
 		public Fragment getItem(int position) {
 			// Get fragment to show
-			final Fragment fragment;
 			switch(position){
 				case 0:
-					fragment = new CalcFragment();
-					break;
+					return mCalculator;
 				default:
-					fragment = new SplitterFragment();
-					break;
+					return mSplitter;
 			}
-			return fragment;
 		}
 
 		/* (non-Javadoc)
@@ -193,15 +235,22 @@ public class MainActivity extends FragmentActivity implements
 		 */
 		@Override
 		public CharSequence getPageTitle(int position) {
-			Locale l = Locale.getDefault();
 			switch (position) {
 			case 0:
-				return getString(R.string.title_section1).toUpperCase(l);
+				return getString(R.string.title_section1);
 			case 1:
-				return getString(R.string.title_section2).toUpperCase(l);
+				return getString(R.string.title_section2);
 			}
 			return null;
 		}
+	}
+	
+	private void loadPreferences(){
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		sStartWithKeyboard = settings.getBoolean(KEYBOARD_PREF_KEY, false);
+		sCurrencySymbol = settings.getString(CURRENCY_PREF_KEY, sCurrencySymbol);
+		sBaseTip = Integer.parseInt(settings.getString(BASE_TIP_PREF_KEY, sBaseTip + "").replaceAll("[\\D]",""));
+		settings.registerOnSharedPreferenceChangeListener(this);
 	}
 
 }

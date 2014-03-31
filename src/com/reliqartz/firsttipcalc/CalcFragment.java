@@ -16,13 +16,11 @@
 
 package com.reliqartz.firsttipcalc;
 
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +34,9 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-public class CalcFragment extends Fragment implements OnSharedPreferenceChangeListener {
+import com.reliqartz.firsttipcalc.interfaces.FinalBillChangeListener;
+
+public class CalcFragment extends Fragment {
 	private static final String TAG = "FirstTip/Calc";
 	
 	private static final String TOTAL_BILL = "TOTAL_BILL";
@@ -49,31 +49,29 @@ public class CalcFragment extends Fragment implements OnSharedPreferenceChangeLi
 	private double mFinalBill;
 	
 	private int[] mChecklistValues = new int[15];
+	private String mCurrency;
 	
-	// Preferences
-	private static boolean sStartWithKeyboard = false;
+	private EditText mBillBeforeTipET;
+	private EditText mTipAmountET;
+	private EditText mFinalTipAmountET;
+	private EditText mFinalTipValueET;
+	private EditText mFinalBillET;
+	private SeekBar mTipSeekBar;
 	
-	EditText billBeforeTipET;
-	EditText tipAmountET;
-	EditText finalTipAmountET;
-	EditText finalTipValueET;
-	EditText finalBillET;
-	SeekBar tipSeekBar;
+	private CheckBox mFriendlyCheckBox;
+	private CheckBox mSpecialsCheckBox;
+	private CheckBox mOpinionCheckBox;
+	private CheckBox mCourtesyCheckBox;
+	private CheckBox mFoodCheckBox;
+	private CheckBox mDrinksCheckBox;
+	private CheckBox mAttentiveCheckBox;
+	private CheckBox mJudgementCheckBox;
+	private CheckBox mGroomedCheckBox;
 	
-	CheckBox friendlyCheckBox;
-	CheckBox specialsCheckBox;
-	CheckBox opinionCheckBox;
-	CheckBox courtesyCheckBox;
-	CheckBox foodCheckBox;
-	CheckBox drinksCheckBox;
-	CheckBox attentiveCheckBox;
-	CheckBox judgementCheckBox;
-	CheckBox groomedCheckBox;
-	
-	RadioGroup availableRadioGroup;
-	RadioButton availableBadRadio;
-	RadioButton availableOkRadio;
-	RadioButton availableGoodRadio;
+	private RadioGroup mAvailableRadioGroup;
+	private RadioButton mAvailableBadRadio;
+	private RadioButton mAvailableOkRadio;
+	private RadioButton mAvailableGoodRadio;
 	
 	
 	
@@ -99,24 +97,12 @@ public class CalcFragment extends Fragment implements OnSharedPreferenceChangeLi
 	}
 	
 	/* (non-Javadoc)
-	 * @see android.support.v4.app.Fragment#onActivityCreated(android.os.Bundle)
-	 */
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState){
-		super.onActivityCreated(savedInstanceState);
-		loadPreferences();
-	}
-	
-	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onStart()
 	 */
 	@Override
 	public void onStart() {
 		super.onStart();
-		initControls();
-		setUpCheckBoxes();
-		addChangeListenerToRadios();
-		
+		init();
 	}
 	
 	/* (non-Javadoc)
@@ -124,8 +110,9 @@ public class CalcFragment extends Fragment implements OnSharedPreferenceChangeLi
 	 */
 	public void onResume(){
 		super.onResume();
-		if(!sStartWithKeyboard)
-			getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+		if (!MainActivity.sStartWithKeyboard)
+			getActivity().getWindow().setSoftInputMode(
+					WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 	}
 	
 	/* (non-Javadoc)
@@ -143,55 +130,50 @@ public class CalcFragment extends Fragment implements OnSharedPreferenceChangeLi
 	/**
 	 * Setup controllers. 
 	 */
-	private void initControls(){
+	private void init(){
+		mCurrency = MainActivity.sCurrencySymbol;
 		
-		billBeforeTipET = (EditText) getView().findViewById(R.id.billEditText);
-		tipAmountET = (EditText) getView().findViewById(R.id.tipEditText);
-		finalTipAmountET = (EditText) getView().findViewById(R.id.finalTipPercentEditText);
-		finalTipValueET = (EditText) getView().findViewById(R.id.finalTipEditText);
-		finalBillET = (EditText) getView().findViewById(R.id.finalBillEditText);
-		tipSeekBar = (SeekBar) getView().findViewById(R.id.tipSeekBar);
-		tipSeekBar.setProgress(15);
+		mBillBeforeTipET = (EditText) getView().findViewById(R.id.billEditText);
+		mTipAmountET = (EditText) getView().findViewById(R.id.tipEditText);
+		mFinalTipAmountET = (EditText) getView().findViewById(R.id.finalTipPercentEditText);
+		mFinalTipValueET = (EditText) getView().findViewById(R.id.finalTipEditText);
+		mFinalBillET = (EditText) getView().findViewById(R.id.finalBillEditText);
+		mTipSeekBar = (SeekBar) getView().findViewById(R.id.tipSeekBar);
+		mTipSeekBar.setProgress(MainActivity.sBaseTip);
 		
-		billBeforeTipET.addTextChangedListener(billBeforeTipListener);
-		tipSeekBar.setOnSeekBarChangeListener(tipSeekBarChangeListener);
+		mBillBeforeTipET.addTextChangedListener(billBeforeTipListener);
+		mTipSeekBar.setOnSeekBarChangeListener(tipSeekBarChangeListener);
 		
-		friendlyCheckBox = (CheckBox) getView().findViewById(R.id.friendlyCheckBox);
-		specialsCheckBox = (CheckBox) getView().findViewById(R.id.specialsCheckBox);
-		opinionCheckBox = (CheckBox) getView().findViewById(R.id.opinionCheckBox);
-		courtesyCheckBox = (CheckBox) getView().findViewById(R.id.courtesyCheckBox);
-		foodCheckBox = (CheckBox) getView().findViewById(R.id.foodCheckBox);
-		drinksCheckBox = (CheckBox) getView().findViewById(R.id.drinksCheckBox);		
-		attentiveCheckBox = (CheckBox) getView().findViewById(R.id.attentiveCheckBox);
-		judgementCheckBox = (CheckBox) getView().findViewById(R.id.judgementCheckBox);
-		groomedCheckBox = (CheckBox) getView().findViewById(R.id.groomedCheckBox);
+		mFriendlyCheckBox = (CheckBox) getView().findViewById(R.id.friendlyCheckBox);
+		mSpecialsCheckBox = (CheckBox) getView().findViewById(R.id.specialsCheckBox);
+		mOpinionCheckBox = (CheckBox) getView().findViewById(R.id.opinionCheckBox);
+		mCourtesyCheckBox = (CheckBox) getView().findViewById(R.id.courtesyCheckBox);
+		mFoodCheckBox = (CheckBox) getView().findViewById(R.id.foodCheckBox);
+		mDrinksCheckBox = (CheckBox) getView().findViewById(R.id.drinksCheckBox);		
+		mAttentiveCheckBox = (CheckBox) getView().findViewById(R.id.attentiveCheckBox);
+		mJudgementCheckBox = (CheckBox) getView().findViewById(R.id.judgementCheckBox);
+		mGroomedCheckBox = (CheckBox) getView().findViewById(R.id.groomedCheckBox);
 		
-		availableRadioGroup = (RadioGroup) getView().findViewById(R.id.availableRadioGroup);
-		availableBadRadio = (RadioButton) getView().findViewById(R.id.availableBadRadio);
-		availableOkRadio = (RadioButton) getView().findViewById(R.id.availableOkRadio);
-		availableGoodRadio = (RadioButton) getView().findViewById(R.id.availableGoodRadio);
+		mAvailableRadioGroup = (RadioGroup) getView().findViewById(R.id.availableRadioGroup);
+		mAvailableBadRadio = (RadioButton) getView().findViewById(R.id.availableBadRadio);
+		mAvailableOkRadio = (RadioButton) getView().findViewById(R.id.availableOkRadio);
+		mAvailableGoodRadio = (RadioButton) getView().findViewById(R.id.availableGoodRadio);
 		
-	}
-	
-	private void loadPreferences(){
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext());
-		sStartWithKeyboard = settings.getBoolean("pref_keyboard", false);
-		settings.registerOnSharedPreferenceChangeListener(this);
+		setUpCheckBoxes();
+		addChangeListenerToRadios();
 	}
 	
 	private TextWatcher billBeforeTipListener = new TextWatcher(){
 
 		@Override
 		public void afterTextChanged(Editable arg0) {
-			// TODO Auto-generated method stub
-			
+			// nothing to do here
 		}
 
 		@Override
 		public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
 				int arg3) {
-			// TODO Auto-generated method stub
-			
+			// nothing to do here
 		}
 
 		@Override
@@ -213,115 +195,110 @@ public class CalcFragment extends Fragment implements OnSharedPreferenceChangeLi
 		@Override
 		public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
 			
-			mTipAmount = (tipSeekBar.getProgress()) * .01; 
-			tipAmountET.setText(String.format("%.0f", mTipAmount*100) + "%");
+			mTipAmount = (mTipSeekBar.getProgress()) * .01; 
+			mTipAmountET.setText(String.format("%.0f", mTipAmount*100) + "%");
 			updateTipAndFinalBill();
 			
 		}
 
 		@Override
 		public void onStartTrackingTouch(SeekBar arg0) {
-			// TODO Auto-generated method stub
-			
+			// nothing to do here
 		}
 
 		@Override
 		public void onStopTrackingTouch(SeekBar arg0) {
-			// TODO Auto-generated method stub
-			
+			// nothing to do here
 		}
 		
 	};
 	
-	
-
 	/**
 	 * Set checkbox values.
 	 */
 	private void setUpCheckBoxes(){
 		
-		friendlyCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+		mFriendlyCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				mChecklistValues[0] = (friendlyCheckBox.isChecked())?4:0;
+				mChecklistValues[0] = (mFriendlyCheckBox.isChecked())?1:0;
 				updateTipAndFinalBill();
 			}
 		});
 		
-		specialsCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+		mSpecialsCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				mChecklistValues[1] = (specialsCheckBox.isChecked())?1:0;
+				mChecklistValues[1] = (mSpecialsCheckBox.isChecked())?1:0;
 				updateTipAndFinalBill();
 			}
 		});
 		
-		opinionCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+		mOpinionCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				mChecklistValues[2] = (opinionCheckBox.isChecked())?2:0;
+				mChecklistValues[2] = (mOpinionCheckBox.isChecked())?1:0;
 				updateTipAndFinalBill();
 			}
 		});
 		
-		courtesyCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+		mCourtesyCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				mChecklistValues[3] = (courtesyCheckBox.isChecked())?1:0;
+				mChecklistValues[3] = (mCourtesyCheckBox.isChecked())?1:0;
 				updateTipAndFinalBill();
 			}
 		});
 		
-		foodCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+		mFoodCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				mChecklistValues[4] = (foodCheckBox.isChecked())?3:0;
+				mChecklistValues[4] = (mFoodCheckBox.isChecked())?2:0;
 				updateTipAndFinalBill();
 			}
 		});
 		
-		drinksCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+		mDrinksCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				mChecklistValues[5] = (drinksCheckBox.isChecked())?2:0;
+				mChecklistValues[5] = (mDrinksCheckBox.isChecked())?2:0;
 				updateTipAndFinalBill();
 			}
 		});
 		
-		attentiveCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+		mAttentiveCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				mChecklistValues[6] = (attentiveCheckBox.isChecked())?1:0;
+				mChecklistValues[6] = (mAttentiveCheckBox.isChecked())?2:0;
 				updateTipAndFinalBill();
 			}
 		});
 		
-		judgementCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+		mJudgementCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				mChecklistValues[7] = (judgementCheckBox.isChecked())?1:0;
+				mChecklistValues[7] = (mJudgementCheckBox.isChecked())?1:0;
 				updateTipAndFinalBill();
 			}
 		});
 		
-		groomedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+		mGroomedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				mChecklistValues[8] = (groomedCheckBox.isChecked())?1:0;
+				mChecklistValues[8] = (mGroomedCheckBox.isChecked())?1:0;
 				updateTipAndFinalBill();
 			}
 		});
 	}
 	
 	private void addChangeListenerToRadios(){
-		availableRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+		mAvailableRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 			
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				// TODO Auto-generated method stub
-				mChecklistValues[9] = (availableBadRadio.isChecked())?-2:0;
-				mChecklistValues[10] = (availableOkRadio.isChecked())?1:0;
-				mChecklistValues[11] = (availableGoodRadio.isChecked())?3:0;
+				mChecklistValues[9] = (mAvailableBadRadio.isChecked())?-2:0;
+				mChecklistValues[10] = (mAvailableOkRadio.isChecked())?1:0;
+				mChecklistValues[11] = (mAvailableGoodRadio.isChecked())?3:0;
 				updateTipAndFinalBill();
 			}
 
@@ -335,23 +312,20 @@ public class CalcFragment extends Fragment implements OnSharedPreferenceChangeLi
 		int checklistTotal = 0;
 		for(int item : mChecklistValues)
 			checklistTotal += item;
-		return tipSeekBar.getProgress() * .01 + checklistTotal*.01;
+		return mTipSeekBar.getProgress() * .01 + checklistTotal*.01;
 	}
 	
 	private void updateTipAndFinalBill(){
+		Log.v(TAG, "updating tip and final bill...");
+		
 		mFinalTipAmount = getFinalTip();
 		mFinalBill = mBillBeforeTip + (mFinalTipAmount * mBillBeforeTip);
-		finalTipAmountET.setText(String.format("%.0f", mFinalTipAmount*100) + "%");
-		finalTipValueET.setText("$" + String.format("%.02f", (mFinalTipAmount*mBillBeforeTip)));
-		finalBillET.setText("$" + String.format("%.02f", mFinalBill));
-	}
-
-	/* (non-Javadoc)
-	 * @see android.content.SharedPreferences.OnSharedPreferenceChangeListener#onSharedPreferenceChanged(android.content.SharedPreferences, java.lang.String)
-	 */
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		loadPreferences();
+		mFinalTipAmountET.setText(String.format("%.0f", mFinalTipAmount*100) + "%");
+		mFinalTipValueET.setText(mCurrency + String.format("%.02f", (mFinalTipAmount*mBillBeforeTip)));
+		mFinalBillET.setText(mCurrency + String.format("%.02f", mFinalBill));
+		
+		// pass final bill to activity
+		((FinalBillChangeListener) getActivity()).onFinalBillChanged(mFinalBill);
 	}
 
 }

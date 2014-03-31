@@ -18,9 +18,17 @@ package com.reliqartz.firsttipcalc;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import com.reliqartz.firsttipcalc.interfaces.FinalBillChangeListener;
 
 /**
  * A simple {@link android.support.v4.app.Fragment} subclass. 
@@ -28,12 +36,20 @@ import android.view.ViewGroup;
  * method to create an instance of this fragment.
  * 
  */
-public class SplitterFragment extends Fragment {
+public class SplitterFragment extends Fragment implements FinalBillChangeListener {
 	private static final String TAG = "FirstTip/Splitter";
 	
 	private static final String ARG_PARAM1 = "param1";
-
-	// private String mParam1;
+	private static final String FINAL_BILL = "TOTAL_BILL";
+	
+	private double mFinalBill = 0.0;
+	
+	private TextView mBillTextView;
+	private Spinner mSplitForSpinner;
+	private RadioButton mSplitEvenRadioButton, mSplitRatioRadioButton;
+	private TextView mSplitInfoTextView, mSplitOnTextView;
+	private LinearLayout mSplitEvenResultLayout;
+	private ListView mSplitRatioResultsListView;
 
 	/**
 	 * Use this factory method to create a new instance of this fragment using
@@ -50,6 +66,7 @@ public class SplitterFragment extends Fragment {
 		Bundle args = new Bundle();
 		args.putString(ARG_PARAM1, param1);
 		fragment.setArguments(args);
+		
 		return fragment;
 	}
 
@@ -59,9 +76,10 @@ public class SplitterFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		/*if (getArguments() != null) {
-			mParam1 = getArguments().getString(ARG_PARAM1);
-		}*/
+		
+		if(savedInstanceState != null){
+			mFinalBill = savedInstanceState.getDouble(FINAL_BILL, mFinalBill);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -72,5 +90,56 @@ public class SplitterFragment extends Fragment {
 			Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_splitter, container, false);
 	}
+	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onStart()
+	 */
+	@Override
+	public void onStart() {
+		super.onStart();
+		this.init();
+		Log.d(TAG, "On Start");
+	}
+	
+	
 
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onSaveInstanceState(android.os.Bundle)
+	 */
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putDouble(FINAL_BILL, mFinalBill);
+	}
+
+	@Override
+	public void onFinalBillChanged(double finalBill) {
+		Log.v(TAG, "Final bill recieved as: " + finalBill);
+		
+		mFinalBill = finalBill;
+		
+		// FIXME mBillTextView is null after rotation
+		if(mBillTextView != null){
+			mBillTextView.setText(MainActivity.sCurrencySymbol + String.format("%.02f", mFinalBill));
+		}else{
+			Log.v(TAG, "Bill view not initialized. No update.");
+		}
+	}
+	
+	/**
+	 * Initialize controls
+	 */
+	private void init() {
+		mBillTextView = (TextView) getView().findViewById(R.id.billTextView);
+		mSplitForSpinner = (Spinner) getView().findViewById(R.id.splitForSpinner);
+		mSplitEvenRadioButton = (RadioButton) getView().findViewById(R.id.splitEvenRadioButton);
+		mSplitRatioRadioButton = (RadioButton) getView().findViewById(R.id.splitRatioRadioButton);
+		mSplitInfoTextView = (TextView) getView().findViewById(R.id.splitInfoTextView);
+		mSplitOnTextView = (TextView) getView().findViewById(R.id.splitOnTextView);
+		mSplitEvenResultLayout = (LinearLayout) getView().findViewById(R.id.splitEvenResultLayout);
+		mSplitRatioResultsListView = (ListView) getView().findViewById(R.id.splitRatioResultsListView);
+		
+		mBillTextView.setText(MainActivity.sCurrencySymbol + String.format("%.02f", mFinalBill));
+	}
+	
 }

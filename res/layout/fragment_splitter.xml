@@ -39,7 +39,7 @@
             android:text="@string/final_bill_edit_text"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/hazeblue_dark"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
     </LinearLayout>
 
@@ -121,11 +121,12 @@
         android:paddingTop="@dimen/LitMargin" >
         
         <LinearLayout
-            android:id="@+id/splitEvenResultsLayout"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:layout_marginTop="@dimen/activity_vertical_margin"
-	        android:orientation="vertical" >
+            android:id="@+id/splitEvenResultLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:orientation="vertical"
+            android:visibility="gone" >
             
             <TextView
 	            android:id="@+id/eachPersonTextView"
@@ -153,7 +154,8 @@
         <ListView
             android:id="@+id/splitRatioResultsListView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:visibility="gone" >
 
         </ListView>
 
