@@ -56,7 +56,8 @@
     <string name="available_ok_radiobutton">OK</string>
     <string name="available_good_radiobutton">Good</string>
     <string name="problems_text_view">Problems Solving Skills</string>
-
+	<string name="cancel_text">Cancel</string>
+	
     <string-array name="problem_solving">
         <item>No Problem Encountered</item>
         <item>Bad</item>
@@ -64,11 +65,12 @@
         <item>Good</item>
     </string-array>
 	
-    <string name="split_for_text_view">Split for:</string>
+    <string name="split_for_text_view">Split for: </string>
     <string name="split_rb_equally">equally</string>
     <string name="split_rb_ratio">by ratio</string>
     <string name="split_info_text_view">Calculated cost(s) per person will be shown below.</string>
-    <string name="split_on_text_view">@null</string>
+    <string name="split_on_text_view">Split on ratio:</string>
+    <string name="split_ratio_text_view">1:1</string> 
     <string name="each_pays_text_view">Each person pays:</string>
     
     <string-array name="split_for">
@@ -80,9 +82,14 @@
         <item>7 people</item>
     </string-array>
     
+    <string name="ratio_no_bill_warning">You must enter a bill amount to split by ratio.</string> 
+    <string name="ratio_hint_text">Enter %1$d ratios separated by ":" below:</string> 
+     <string name="ratio_invalid">Invalid ratio for %1$d way split. Please provide %1$d ratios.</string> 
+    
     <string name="title_activity_main">Tip Calculator &amp; Advisor</string>
     <string name="title_section1">Calculate</string>
     <string name="title_section2">Split</string>
     <string name="title_activity_preferences">Settings</string>
+    <string name="title_ratio_dialog">Ratio</string>
 
 </resources>

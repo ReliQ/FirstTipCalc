@@ -28,6 +28,7 @@
     <dimen name="medium_wave">21dp</dimen>
     
     <dimen name="emph_result_text">20sp</dimen>
+    <dimen name="emph_big_result_text">27sp</dimen>
     <dimen name="little_wave">16dp</dimen>
 
 </resources>

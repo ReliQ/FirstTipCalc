@@ -319,7 +319,7 @@
 			     android:padding="5dp"
 			     android:text="@string/final_bill_edit_text"
 			     android:textColor="@color/dark_essence"
-			     android:textSize="27sp" >
+			     android:textSize="@dimen/emph_big_result_text" >
 			
 			     <requestFocus />
 			 </EditText>

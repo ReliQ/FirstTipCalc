@@ -37,6 +37,10 @@ import android.widget.TextView;
 
 import com.reliqartz.firsttipcalc.interfaces.FinalBillChangeListener;
 
+/**
+ * Tip calculator.
+ * @author Patrick Reid
+ */
 public class CalcFragment extends Fragment {
 	public static final String TAG = "FirstTip/Calc";
 
@@ -85,7 +89,7 @@ public class CalcFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if(savedInstanceState != null){
+		if (savedInstanceState != null) {
 			mBillBeforeTip = savedInstanceState.getDouble(BILL_WITHOUT_TIP);
 			mTipAmount = savedInstanceState.getDouble(CURRENT_TIP);
 			mFinalBill = savedInstanceState.getDouble(TOTAL_BILL);
@@ -101,9 +105,9 @@ public class CalcFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		if(savedInstanceState != null){
+		if (savedInstanceState != null) {
 			mSeekBarTip = savedInstanceState.getInt(SEEKBAR_TIP, mSeekBarTip);
-		}else{
+		} else {
 			mSeekBarTip = MainActivity.sBaseTip;
 		}
 	}
@@ -114,7 +118,7 @@ public class CalcFragment extends Fragment {
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_calc, container, false);
 	}
 	
@@ -130,7 +134,7 @@ public class CalcFragment extends Fragment {
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onResume()
 	 */
-	public void onResume(){
+	public void onResume() {
 		super.onResume();
 		if (!MainActivity.sStartWithKeyboard)
 			getActivity().getWindow().setSoftInputMode(
@@ -140,7 +144,7 @@ public class CalcFragment extends Fragment {
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onSaveInstanceState(android.os.Bundle)
 	 */
-	public void onSaveInstanceState(Bundle outState){
+	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		
 		outState.putDouble(BILL_WITHOUT_TIP, mBillBeforeTip);
@@ -153,7 +157,7 @@ public class CalcFragment extends Fragment {
 	/**
 	 * Setup controllers. 
 	 */
-	private void init(){
+	private void init() {
 		Log.v(TAG, "starting tip: " + mSeekBarTip);
 		
 		mCurrency = MainActivity.sCurrencySymbol;
@@ -200,21 +204,22 @@ public class CalcFragment extends Fragment {
 	private TextWatcher billBeforeTipListener = new TextWatcher(){
 
 		@Override
-		public void afterTextChanged(Editable arg0) {
+		public void afterTextChanged(Editable s) {
 			// nothing to do here
 		}
 
 		@Override
-		public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
-				int arg3) {
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
 			// nothing to do here
 		}
 
 		@Override
-		public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
 			
 			try{
-				mBillBeforeTip = Double.parseDouble(arg0.toString());
+				mBillBeforeTip = Double.parseDouble(s.toString());
 			}catch(NumberFormatException e){
 				mBillBeforeTip = 0.0;
 			}
@@ -224,7 +229,7 @@ public class CalcFragment extends Fragment {
 		
 	};
 	
-	private OnSeekBarChangeListener tipSeekBarChangeListener= new OnSeekBarChangeListener(){
+	private OnSeekBarChangeListener tipSeekBarChangeListener = new OnSeekBarChangeListener() {
 
 		@Override
 		public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
@@ -252,7 +257,7 @@ public class CalcFragment extends Fragment {
 	 */
 	private void setUpCheckBoxes(){
 		
-		mFriendlyCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+		mFriendlyCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 				mChecklistValues[0] = (mFriendlyCheckBox.isChecked())?1:0;
@@ -260,7 +265,7 @@ public class CalcFragment extends Fragment {
 			}
 		});
 		
-		mSpecialsCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+		mSpecialsCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 				mChecklistValues[1] = (mSpecialsCheckBox.isChecked())?1:0;
@@ -268,7 +273,7 @@ public class CalcFragment extends Fragment {
 			}
 		});
 		
-		mOpinionCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+		mOpinionCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 				mChecklistValues[2] = (mOpinionCheckBox.isChecked())?1:0;
@@ -276,7 +281,7 @@ public class CalcFragment extends Fragment {
 			}
 		});
 		
-		mCourtesyCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+		mCourtesyCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 				mChecklistValues[3] = (mCourtesyCheckBox.isChecked())?1:0;
@@ -284,7 +289,7 @@ public class CalcFragment extends Fragment {
 			}
 		});
 		
-		mFoodCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+		mFoodCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 				mChecklistValues[4] = (mFoodCheckBox.isChecked())?2:0;
@@ -292,7 +297,7 @@ public class CalcFragment extends Fragment {
 			}
 		});
 		
-		mDrinksCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+		mDrinksCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 				mChecklistValues[5] = (mDrinksCheckBox.isChecked())?2:0;
@@ -300,7 +305,7 @@ public class CalcFragment extends Fragment {
 			}
 		});
 		
-		mAttentiveCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+		mAttentiveCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 				mChecklistValues[6] = (mAttentiveCheckBox.isChecked())?2:0;
@@ -308,7 +313,7 @@ public class CalcFragment extends Fragment {
 			}
 		});
 		
-		mJudgementCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+		mJudgementCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 				mChecklistValues[7] = (mJudgementCheckBox.isChecked())?1:0;
@@ -316,7 +321,7 @@ public class CalcFragment extends Fragment {
 			}
 		});
 		
-		mGroomedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+		mGroomedCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 				mChecklistValues[8] = (mGroomedCheckBox.isChecked())?1:0;
@@ -325,7 +330,7 @@ public class CalcFragment extends Fragment {
 		});
 	}
 	
-	private void addChangeListenerToRadios(){
+	private void addChangeListenerToRadios() {
 		mAvailableRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 			
 			@Override
@@ -342,14 +347,15 @@ public class CalcFragment extends Fragment {
 	/**
 	 * Check auto area and update.
 	 */
-	private double getFinalTip(){
+	private double getFinalTip() {
 		int checklistTotal = 0;
-		for(int item : mChecklistValues)
+		for (int item : mChecklistValues) {
 			checklistTotal += item;
+		}
 		return mTipSeekBar.getProgress() * .01 + checklistTotal*.01;
 	}
 	
-	private void updateTipAndFinalBill(){
+	private void updateTipAndFinalBill() {
 		Log.v(TAG, "updating tip and final bill...");
 		
 		mFinalTipAmount = getFinalTip();

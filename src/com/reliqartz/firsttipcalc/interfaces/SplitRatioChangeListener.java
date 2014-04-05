@@ -21,5 +21,5 @@ package com.reliqartz.firsttipcalc.interfaces;
  * @author Patrick Reid
  */
 public interface SplitRatioChangeListener {
-	public void onSplitRatioChanged(double ratio);
+	public void onSplitRatioChanged(String ratio);
 }

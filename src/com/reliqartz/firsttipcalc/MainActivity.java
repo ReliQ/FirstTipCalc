@@ -33,9 +33,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.reliqartz.firsttipcalc.interfaces.FinalBillChangeListener;
+import com.reliqartz.firsttipcalc.interfaces.SplitRatioChangeListener;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener, 
-OnSharedPreferenceChangeListener, FinalBillChangeListener {
+		OnSharedPreferenceChangeListener, FinalBillChangeListener, SplitRatioChangeListener {
 	private static final String TAG = "FirstTip/Main";
 	
 	private static final String KEYBOARD_PREF_KEY = "pref_keyboard";
@@ -80,12 +81,14 @@ OnSharedPreferenceChangeListener, FinalBillChangeListener {
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		
 		// initialize fragments
-		if(savedInstanceState == null){
+		if (savedInstanceState == null) {
 			mCalculator = new CalcFragment();
 			mSplitter = new SplitterFragment();
-		}else{
-			mCalculator = (CalcFragment) getSupportFragmentManager().getFragment(savedInstanceState, CalcFragment.TAG);
-			mSplitter = (SplitterFragment) getSupportFragmentManager().getFragment(savedInstanceState, SplitterFragment.TAG);
+		} else {
+			mCalculator = (CalcFragment) getSupportFragmentManager()
+					.getFragment(savedInstanceState, CalcFragment.TAG);
+			mSplitter = (SplitterFragment) getSupportFragmentManager()
+					.getFragment(savedInstanceState, SplitterFragment.TAG);
 		}
 
 		// Create the adapter that will return a fragment for each of the three
@@ -149,10 +152,10 @@ OnSharedPreferenceChangeListener, FinalBillChangeListener {
 	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
 	 */
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item){
+	public boolean onOptionsItemSelected(MenuItem item) {
 		final Intent i;
 		Log.d(TAG, "Menu item selected: "+ item.getItemId());
-		switch(item.getItemId()){
+		switch (item.getItemId()) {
 			case R.id.action_refresh:
 				i = getIntent(); finish();
 				//i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -195,17 +198,28 @@ OnSharedPreferenceChangeListener, FinalBillChangeListener {
 			FragmentTransaction fragmentTransaction) {
 	}
 	
-	@Override
-	public void onFinalBillChanged(double finalBill) {
-		mSplitter.onFinalBillChanged(finalBill);
-	}
-	
 	/* (non-Javadoc)
 	 * @see android.content.SharedPreferences.OnSharedPreferenceChangeListener#onSharedPreferenceChanged(android.content.SharedPreferences, java.lang.String)
 	 */
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		loadPreferences();
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.reliqartz.firsttipcalc.interfaces.FinalBillChangeListener#onFinalBillChanged(double)
+	 */
+	@Override
+	public void onFinalBillChanged(double finalBill) {
+		mSplitter.onFinalBillChanged(finalBill);
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.reliqartz.firsttipcalc.interfaces.SplitRatioChangeListener#onSplitRatioChanged(java.lang.String)
+	 */
+	@Override
+	public void onSplitRatioChanged(String ratio) {
+		mSplitter.onSplitRatioChanged(ratio);		
 	}
 
 	/**
@@ -221,7 +235,7 @@ OnSharedPreferenceChangeListener, FinalBillChangeListener {
 		@Override
 		public Fragment getItem(int position) {
 			// Get fragment to show
-			switch(position){
+			switch (position) {
 				case 0:
 					return mCalculator;
 				default:
@@ -253,7 +267,10 @@ OnSharedPreferenceChangeListener, FinalBillChangeListener {
 		}
 	}
 	
-	private void loadPreferences(){
+	/**
+	 * Load user preferences;
+	 */
+	private void loadPreferences() {
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		sStartWithKeyboard = settings.getBoolean(KEYBOARD_PREF_KEY, false);
 		sCurrencySymbol = settings.getString(CURRENCY_PREF_KEY, sCurrencySymbol);
