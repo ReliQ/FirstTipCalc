@@ -27,6 +27,8 @@
     <color name="arch_emphasis">#3ac2ff</color>
     <color name="barblue_bright">#40c3ff</color>
     <color name="bg_gray">#cecbce</color>
+    <color name="big_brown">#7a5516</color>
+    <color name="dark_brown">#6c4b11</color>
     <color name="dark_essence">#111111</color>
     <color name="emphasis">#31b6e7</color>
     <color name="firstblue1">#00aaeb</color>
@@ -35,11 +37,14 @@
     <color name="firstblue2_trans">#8500adef</color>
     <color name="firstblue3">#00adef</color>
     <color name="firstblue3_trans">#8500adef</color>
+    <color name="gold_well">#ffce59</color>
     <color name="hashblue">#40c3ff</color>
     <color name="hazeblue_dark">#345f6f</color>
     <color name="hazeblue_dark_trans">#85345f6f</color>
     <color name="hazeblue_dark_trans_50">#50345f6f</color>
     <color name="hazeblue_dark_trans_25">#25345f6f</color>
+    <color name="lean_brown">#be8f3d</color>
+    <color name="slim_brown">#be8f3d</color>
     <color name="spokgreen">#6cff85</color>
     <color name="sweepgreen">#a4ecbe</color>
     <color name="subtle_green">#dffbe4</color>
