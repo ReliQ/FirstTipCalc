@@ -294,6 +294,7 @@
 	    </LinearLayout>
 	    
 	    <LinearLayout
+	        android:id="@+id/finalBillLayout"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:background="@color/accents" >
@@ -302,6 +303,7 @@
 	            android:id="@+id/finalBillTextView"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
+	            android:layout_marginRight="8dp"
 	            android:paddingLeft="5dp"
 	            android:text="@string/final_text_view"
 	            android:textColor="@color/dark_essence"

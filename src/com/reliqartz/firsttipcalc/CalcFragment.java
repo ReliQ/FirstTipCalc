@@ -36,12 +36,14 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.reliqartz.firsttipcalc.interfaces.FinalBillChangeListener;
+import com.reliqartz.firsttipcalc.utils.FontApplicator;
+import com.reliqartz.firsttipcalc.utils.FontLibrary;
 
 /**
  * Tip calculator.
  * @author Patrick Reid
  */
-public class CalcFragment extends Fragment {
+public class CalcFragment extends Fragment implements FontApplicator.Fonty {
 	public static final String TAG = "FirstTip/Calc";
 
 	private static final int PROGRESS_MAX = 100;
@@ -59,29 +61,17 @@ public class CalcFragment extends Fragment {
 	private int[] mChecklistValues = new int[15];
 	private String mCurrency;
 	
-	private EditText mBillBeforeTipET;
-	private EditText mTipAmountET;
-	private EditText mFinalTipAmountET;
-	private EditText mFinalTipValueET;
-	private EditText mFinalBillET;
+	private EditText mBillBeforeTipET, mTipAmountET, mFinalTipAmountET,
+			mFinalTipValueET, mFinalBillET;
 	private SeekBar mTipSeekBar;
-	
-	private CheckBox mFriendlyCheckBox;
-	private CheckBox mSpecialsCheckBox;
-	private CheckBox mOpinionCheckBox;
-	private CheckBox mCourtesyCheckBox;
-	private CheckBox mFoodCheckBox;
-	private CheckBox mDrinksCheckBox;
-	private CheckBox mAttentiveCheckBox;
-	private CheckBox mJudgementCheckBox;
-	private CheckBox mGroomedCheckBox;
-	
+	private CheckBox mFriendlyCheckBox, mSpecialsCheckBox, mOpinionCheckBox,
+			mCourtesyCheckBox, mFoodCheckBox, mDrinksCheckBox,
+			mAttentiveCheckBox, mJudgementCheckBox, mGroomedCheckBox;
 	private RadioGroup mAvailableRadioGroup;
-	private RadioButton mAvailableBadRadio;
-	private RadioButton mAvailableOkRadio;
-	private RadioButton mAvailableGoodRadio;
-	
-	private TextView mCurrencyTextView;
+	private RadioButton mAvailableBadRadio, mAvailableOkRadio,
+			mAvailableGoodRadio;
+	private TextView mCurrencyTextView, mBillTextView, mBaseTipTextView,
+			mFinalTipTextView;
 	
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreate(android.os.Bundle)
@@ -153,54 +143,6 @@ public class CalcFragment extends Fragment {
 		outState.putInt(SEEKBAR_TIP, mTipSeekBar.getProgress());
 	}
 	
-	
-	/**
-	 * Setup controllers. 
-	 */
-	private void init() {
-		Log.v(TAG, "starting tip: " + mSeekBarTip);
-		
-		mCurrency = MainActivity.sCurrencySymbol;
-		
-		mBillBeforeTipET = (EditText) getView().findViewById(R.id.billEditText);
-		mTipAmountET = (EditText) getView().findViewById(R.id.tipEditText);
-		mFinalTipAmountET = (EditText) getView().findViewById(R.id.finalTipPercentEditText);
-		mFinalTipValueET = (EditText) getView().findViewById(R.id.finalTipEditText);
-		mFinalBillET = (EditText) getView().findViewById(R.id.finalBillEditText);
-		mTipSeekBar = (SeekBar) getView().findViewById(R.id.tipSeekBar);
-		
-		mBillBeforeTipET.addTextChangedListener(billBeforeTipListener);
-		mTipSeekBar.setOnSeekBarChangeListener(tipSeekBarChangeListener);
-		
-		mFriendlyCheckBox = (CheckBox) getView().findViewById(R.id.friendlyCheckBox);
-		mSpecialsCheckBox = (CheckBox) getView().findViewById(R.id.specialsCheckBox);
-		mOpinionCheckBox = (CheckBox) getView().findViewById(R.id.opinionCheckBox);
-		mCourtesyCheckBox = (CheckBox) getView().findViewById(R.id.courtesyCheckBox);
-		mFoodCheckBox = (CheckBox) getView().findViewById(R.id.foodCheckBox);
-		mDrinksCheckBox = (CheckBox) getView().findViewById(R.id.drinksCheckBox);		
-		mAttentiveCheckBox = (CheckBox) getView().findViewById(R.id.attentiveCheckBox);
-		mJudgementCheckBox = (CheckBox) getView().findViewById(R.id.judgementCheckBox);
-		mGroomedCheckBox = (CheckBox) getView().findViewById(R.id.groomedCheckBox);
-		
-		mAvailableRadioGroup = (RadioGroup) getView().findViewById(R.id.availableRadioGroup);
-		mAvailableBadRadio = (RadioButton) getView().findViewById(R.id.availableBadRadio);
-		mAvailableOkRadio = (RadioButton) getView().findViewById(R.id.availableOkRadio);
-		mAvailableGoodRadio = (RadioButton) getView().findViewById(R.id.availableGoodRadio);
-		
-		mCurrencyTextView = (TextView) getView().findViewById(R.id.dollarSignTextView);
-		
-		mCurrencyTextView.setText(mCurrency);
-		mFinalBillET.setText(mCurrency + String.format("%.02f", mFinalBill));
-		mFinalTipValueET.setText(mCurrency + String.format("%.02f", mFinalTipAmount));
-		mTipSeekBar.setMax(PROGRESS_MAX);
-		mTipSeekBar.setProgress(mSeekBarTip);
-		mTipAmount = (mTipSeekBar.getProgress()) * .01; 
-		mTipAmountET.setText(String.format("%.0f", mTipAmount*100) + "%");
-		
-		setUpCheckBoxes();
-		addChangeListenerToRadios();
-	}
-	
 	private TextWatcher billBeforeTipListener = new TextWatcher(){
 
 		@Override
@@ -251,6 +193,76 @@ public class CalcFragment extends Fragment {
 		}
 		
 	};
+	
+	/* (non-Javadoc)
+	 * @see com.reliqartz.firsttipcalc.utils.FontApplicator.Fonty#applyFonts()
+	 */
+	@Override
+	public void applyFonts() {
+		// apply overall font
+		((MainActivity) getActivity()).getFontApplicator().applyFont(getView());
+		
+		// apply specific fonts
+		final FontApplicator fontApp = new FontApplicator(getActivity(), FontLibrary.ROBOTO);
+		fontApp.applyFont(mBillTextView);
+		fontApp.applyFont(mBaseTipTextView);
+		fontApp.applyFont(mFinalTipTextView);
+		fontApp.applyFont(mFinalTipAmountET);
+		fontApp.applyFont(getView().findViewById(R.id.finalBillLayout));
+		fontApp.applyFont(getView().findViewById(R.id.autoTippingTextView));
+	}
+	
+	/**
+	 * Setup controllers. 
+	 */
+	private void init() {
+		Log.v(TAG, "starting tip: " + mSeekBarTip);
+		
+		mCurrency = MainActivity.sCurrencySymbol;
+		
+		mBillBeforeTipET = (EditText) getView().findViewById(R.id.billEditText);
+		mTipAmountET = (EditText) getView().findViewById(R.id.tipEditText);
+		mFinalTipAmountET = (EditText) getView().findViewById(R.id.finalTipPercentEditText);
+		mFinalTipValueET = (EditText) getView().findViewById(R.id.finalTipEditText);
+		mFinalBillET = (EditText) getView().findViewById(R.id.finalBillEditText);
+		mTipSeekBar = (SeekBar) getView().findViewById(R.id.tipSeekBar);
+		
+		mBillBeforeTipET.addTextChangedListener(billBeforeTipListener);
+		mTipSeekBar.setOnSeekBarChangeListener(tipSeekBarChangeListener);
+		
+		mFriendlyCheckBox = (CheckBox) getView().findViewById(R.id.friendlyCheckBox);
+		mSpecialsCheckBox = (CheckBox) getView().findViewById(R.id.specialsCheckBox);
+		mOpinionCheckBox = (CheckBox) getView().findViewById(R.id.opinionCheckBox);
+		mCourtesyCheckBox = (CheckBox) getView().findViewById(R.id.courtesyCheckBox);
+		mFoodCheckBox = (CheckBox) getView().findViewById(R.id.foodCheckBox);
+		mDrinksCheckBox = (CheckBox) getView().findViewById(R.id.drinksCheckBox);		
+		mAttentiveCheckBox = (CheckBox) getView().findViewById(R.id.attentiveCheckBox);
+		mJudgementCheckBox = (CheckBox) getView().findViewById(R.id.judgementCheckBox);
+		mGroomedCheckBox = (CheckBox) getView().findViewById(R.id.groomedCheckBox);
+		
+		mAvailableRadioGroup = (RadioGroup) getView().findViewById(R.id.availableRadioGroup);
+		mAvailableBadRadio = (RadioButton) getView().findViewById(R.id.availableBadRadio);
+		mAvailableOkRadio = (RadioButton) getView().findViewById(R.id.availableOkRadio);
+		mAvailableGoodRadio = (RadioButton) getView().findViewById(R.id.availableGoodRadio);
+		
+		mCurrencyTextView = (TextView) getView().findViewById(R.id.dollarSignTextView);
+		mBillTextView = (TextView) getView().findViewById(R.id.billTextView);
+		mBaseTipTextView = (TextView) getView().findViewById(R.id.tipTextView);
+		mFinalTipTextView = (TextView) getView().findViewById(R.id.finalTipTextView);
+		
+		mCurrencyTextView.setText(mCurrency);
+		mFinalBillET.setText(mCurrency + String.format("%.02f", mFinalBill));
+		mFinalTipValueET.setText(mCurrency + String.format("%.02f", mFinalTipAmount));
+		mTipSeekBar.setMax(PROGRESS_MAX);
+		mTipSeekBar.setProgress(mSeekBarTip);
+		mTipAmount = (mTipSeekBar.getProgress()) * .01; 
+		mTipAmountET.setText(String.format("%.0f", mTipAmount*100) + "%");
+		
+		setUpCheckBoxes();
+		addChangeListenerToRadios();
+		applyFonts();
+		
+	}
 	
 	/**
 	 * Set checkbox values.

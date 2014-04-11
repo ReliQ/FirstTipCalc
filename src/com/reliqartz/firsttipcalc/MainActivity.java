@@ -21,6 +21,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -31,12 +32,16 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.reliqartz.firsttipcalc.interfaces.FinalBillChangeListener;
 import com.reliqartz.firsttipcalc.interfaces.SplitRatioChangeListener;
+import com.reliqartz.firsttipcalc.utils.FontApplicator;
+import com.reliqartz.firsttipcalc.utils.FontLibrary;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener, 
-		OnSharedPreferenceChangeListener, FinalBillChangeListener, SplitRatioChangeListener {
+		OnSharedPreferenceChangeListener, FinalBillChangeListener, SplitRatioChangeListener,
+		FontApplicator.Fonty {
 	private static final String TAG = "FirstTip/Main";
 	
 	private static final String KEYBOARD_PREF_KEY = "pref_keyboard";
@@ -50,6 +55,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	
 	private CalcFragment mCalculator;
 	private SplitterFragment mSplitter;
+	
+	// Font
+	private FontLibrary mFonts;
+	private FontApplicator mFontApplicator;
 	
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -122,6 +131,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 					.setTabListener(this));
 		}
 		
+		// setup fonts
+		applyFonts();
 	}
 	
 	
@@ -136,7 +147,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		getSupportFragmentManager().putFragment(outState, CalcFragment.TAG, mCalculator);
 		getSupportFragmentManager().putFragment(outState, SplitterFragment.TAG, mSplitter);
 	}
-
 
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
@@ -221,6 +231,22 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public void onSplitRatioChanged(String ratio) {
 		mSplitter.onSplitRatioChanged(ratio);		
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.reliqartz.firsttipcalc.utils.FontApplicator.Fonty#applyFonts()
+	 */
+	@Override
+	public void applyFonts() {
+		// Setup Fonts
+		mFonts = new FontLibrary(this);
+		// Apply two fonts to ActionBar, one for title & one for other TextViews
+		mFontApplicator = new FontApplicator(getApplicationContext(),
+				FontLibrary.ROBOTO_LIGHT).applyFont(getWindow().getDecorView());
+		final int actionBarTitleId = Resources.getSystem().getIdentifier(
+				"action_bar_title", "id", "android");
+		((TextView) getWindow().findViewById(actionBarTitleId))
+				.setTypeface(mFonts.getFont(FontLibrary.ROBOTO));
+	}
 
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -265,6 +291,13 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			}
 			return null;
 		}
+	}
+	
+	/**
+	 * @return the FontApplicator.
+	 */
+	FontApplicator getFontApplicator() {
+		return mFontApplicator;
 	}
 	
 	/**

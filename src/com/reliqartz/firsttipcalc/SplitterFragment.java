@@ -35,13 +35,16 @@ import android.widget.Toast;
 
 import com.reliqartz.firsttipcalc.interfaces.FinalBillChangeListener;
 import com.reliqartz.firsttipcalc.interfaces.SplitRatioChangeListener;
+import com.reliqartz.firsttipcalc.utils.FontApplicator;
+import com.reliqartz.firsttipcalc.utils.FontLibrary;
 
 /**
  * Bill splitter. 
  * @author Patrick Reid
  */
 public class SplitterFragment extends Fragment implements FinalBillChangeListener,
-		SplitRatioChangeListener, OnCheckedChangeListener, OnItemSelectedListener {
+		SplitRatioChangeListener, OnCheckedChangeListener, OnItemSelectedListener,
+		FontApplicator.Fonty {
 	public static final String TAG = "FirstTip/Splitter";
 	
 	private static final String ARG_PARAM1 = "param1";
@@ -181,6 +184,20 @@ public class SplitterFragment extends Fragment implements FinalBillChangeListene
 		// Do nothing...
 	} 
 	
+	/* (non-Javadoc)
+	 * @see com.reliqartz.firsttipcalc.utils.FontApplicator.Fonty#applyFonts()
+	 */
+	@Override
+	public void applyFonts() {
+		// apply overall font
+		((MainActivity) getActivity()).getFontApplicator().applyFont(getView());
+		
+		// apply specific fonts
+		final FontApplicator fontApp = new FontApplicator(getActivity(), FontLibrary.ROBOTO);
+		fontApp.applyFont(mBillTextView);
+		fontApp.applyFont(mSplitRatioTextView);
+	}
+	
 	/**
 	 * Initialize views and set listeners.
 	 */
@@ -202,6 +219,7 @@ public class SplitterFragment extends Fragment implements FinalBillChangeListene
 		mSplitForSpinner.setOnItemSelectedListener(this);
 		
 		updateSplitInfoRow();
+		applyFonts();
 	}
 	
 	/**
@@ -229,8 +247,6 @@ public class SplitterFragment extends Fragment implements FinalBillChangeListene
 				mSplitEvenResultLayout.setVisibility(View.GONE);
 				RatioDialog.newInstance(mFinalBill, mSplitFor)
 					.show(getFragmentManager(), RatioDialog.TAG);
-
-				//Toast.makeText(getActivity(), "Uneven split selected.", Toast.LENGTH_SHORT).show();
 			}
 		}
 		updateSplitInfoRow();
