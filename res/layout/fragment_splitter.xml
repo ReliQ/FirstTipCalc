@@ -30,10 +30,10 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/top1Margin"
         android:background="@color/subtle_green"
-        android:paddingBottom="@dimen/little_wave"
+        android:paddingBottom="@dimen/mini_wave"
         android:paddingLeft="@dimen/medium_wave"
         android:paddingRight="@dimen/medium_wave"
-        android:paddingTop="@dimen/little_wave" >
+        android:paddingTop="@dimen/mini_wave" >
 
         <TextView
             android:id="@+id/billTextView"
@@ -42,7 +42,7 @@
             android:text="@string/final_bill_edit_text"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/hazeblue_dark"
-            android:textSize="22sp" />
+            android:textSize="25sp" />
 
     </LinearLayout>
 

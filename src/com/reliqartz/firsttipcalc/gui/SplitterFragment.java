@@ -172,7 +172,6 @@ public class SplitterFragment extends Fragment implements FinalBillChangeListene
 	public void onItemSelected(AdapterView<?> parent, View view, int position,
 			long id) {
 		mSplitFor = Integer.parseInt(mSplitForSpinner.getSelectedItem().toString().replaceAll("[\\D]",""));
-		Log.v(TAG, "Splitting for: " + mSplitFor);
 		if (mSplitEvenRadioButton.isChecked() || mSplitRatioRadioButton.isChecked()) {
 			doSplit();
 		}
@@ -193,7 +192,6 @@ public class SplitterFragment extends Fragment implements FinalBillChangeListene
 	public void applyFonts() {
 		// apply overall font
 		((MainActivity) getActivity()).getFontApplicator().applyFont(getView());
-		
 		// apply specific fonts
 		final FontApplicator fontApp = new FontApplicator(getActivity(), FontLibrary.ROBOTO);
 		fontApp.applyFont(mBillTextView);
@@ -218,7 +216,6 @@ public class SplitterFragment extends Fragment implements FinalBillChangeListene
 		mSplitRadioGroup.clearCheck();
 		mSplitRadioGroup.setOnCheckedChangeListener(this);
 		mSplitForSpinner.setOnItemSelectedListener(this);
-		
 		updateSplitInfoRow();
 		applyFonts();
 	}
@@ -233,6 +230,8 @@ public class SplitterFragment extends Fragment implements FinalBillChangeListene
 		} else {
 			if (mFinalBill == 0.0) {
 				mSplitRadioGroup.clearCheck();
+				mSplitEvenResultLayout.setVisibility(View.GONE);
+				mSplitRatioResultsListView.setVisibility(View.GONE);
 				Toast.makeText(getActivity(),
 						getString(R.string.ratio_no_bill_warning),
 						Toast.LENGTH_SHORT).show();

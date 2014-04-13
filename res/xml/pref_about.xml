@@ -26,7 +26,6 @@
         android:key="pref_policy"
         android:title="@string/pref_version"
         android:summary="@string/pref_version_summ"
-        android:enabled="false"
         android:selectable="false" />
 
 </PreferenceScreen>

@@ -30,6 +30,7 @@
     <dimen name="emph_result_text">20sp</dimen>
     <dimen name="emph_big_result_text">27sp</dimen>
     <dimen name="little_wave">16dp</dimen>
+    <dimen name="mini_wave">12dp</dimen>
     <dimen name="little_detail">12sp</dimen>
 
 </resources>
