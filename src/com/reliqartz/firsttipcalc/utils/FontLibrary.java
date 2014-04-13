@@ -17,6 +17,7 @@
 package com.reliqartz.firsttipcalc.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Typeface;
 
 /**
@@ -42,12 +43,20 @@ public class FontLibrary {
 	}
 	
 	/**
-	 * @param activity An instance of the calling Activity, usually found by "this"
 	 * @param font String name of font.
 	 * @return Usable instance of requested font. 
 	 */
 	public Typeface getFont(String font){
 		return (Typeface) Typeface.createFromAsset(this.activity.getAssets(), font);
 	}
-
+	
+	/**
+	 * @param font
+	 * @param context
+	 * @return Usable instance of requested font. 
+	 */
+	public static Typeface getFont(String font, Context context){
+		return (Typeface) Typeface.createFromAsset(context.getAssets(), font);
+	}
+	
 }

@@ -34,7 +34,7 @@ public class ValidTextUtils {
 	 */
 	public static boolean validRatio(String ratio, int split) {
 		boolean result =  false;
-		if (ratio.matches("^[0-9]:[[0-9]:]*[0-9]$")) {
+		if (ratio.matches("^[0-9][0-9]*:[[0-9]:]*[0-9]*[0-9]$")) {
 			Log.v(TAG, "Checking ratio " + ratio + " results follow...");
 			Log.i(TAG, "RATIO PATTERN MATCHED");
 			if (split > 1) {

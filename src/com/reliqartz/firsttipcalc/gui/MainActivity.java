@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.reliqartz.firsttipcalc;
+package com.reliqartz.firsttipcalc.gui;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
@@ -34,6 +34,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.reliqartz.firsttipcalc.beta.R;
 import com.reliqartz.firsttipcalc.interfaces.FinalBillChangeListener;
 import com.reliqartz.firsttipcalc.interfaces.SplitRatioChangeListener;
 import com.reliqartz.firsttipcalc.utils.FontApplicator;

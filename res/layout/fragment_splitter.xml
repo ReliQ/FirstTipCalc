@@ -20,7 +20,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.reliqartz.firsttipcalc.SplitterFragment" >
+    tools:context="com.reliqartz.firsttipcalc.gui.SplitterFragment" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -158,9 +158,10 @@
             android:id="@+id/splitRatioResultsListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone" >
-
-        </ListView>
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:divider="@color/transparent"
+            android:dividerHeight="5dp"
+            android:visibility="gone" />
 
     </LinearLayout>
 

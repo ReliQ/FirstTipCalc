@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.reliqartz.firsttipcalc;
+package com.reliqartz.firsttipcalc.gui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -30,6 +30,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.reliqartz.firsttipcalc.beta.R;
 import com.reliqartz.firsttipcalc.interfaces.SplitRatioChangeListener;
 import com.reliqartz.firsttipcalc.utils.ValidTextUtils;
 
@@ -158,7 +159,7 @@ public class RatioDialog extends DialogFragment {
 			dialog.getButton(Dialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					final String ratio = mRatioEditText.getText().toString();
+					String ratio = mRatioEditText.getText().toString();
 					if (ValidTextUtils.validRatio(ratio, mSplitFor) || mAllowClose) {
 						mActivity.onSplitRatioChanged(ratio);
 						dismiss();

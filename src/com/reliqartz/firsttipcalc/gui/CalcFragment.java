@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.reliqartz.firsttipcalc;
+package com.reliqartz.firsttipcalc.gui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -35,6 +35,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import com.reliqartz.firsttipcalc.beta.R;
 import com.reliqartz.firsttipcalc.interfaces.FinalBillChangeListener;
 import com.reliqartz.firsttipcalc.utils.FontApplicator;
 import com.reliqartz.firsttipcalc.utils.FontLibrary;

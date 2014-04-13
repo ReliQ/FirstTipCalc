@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.reliqartz.firsttipcalc;
+package com.reliqartz.firsttipcalc.gui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -33,6 +33,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.reliqartz.firsttipcalc.beta.R;
 import com.reliqartz.firsttipcalc.interfaces.FinalBillChangeListener;
 import com.reliqartz.firsttipcalc.interfaces.SplitRatioChangeListener;
 import com.reliqartz.firsttipcalc.utils.FontApplicator;
@@ -53,8 +54,10 @@ public class SplitterFragment extends Fragment implements FinalBillChangeListene
 	private double mFinalBill = 0.0;
 	private boolean mSplitEven = true;
 	private int mSplitFor = 2;
+	private int[] mRatios = new int[mSplitFor];
 	private String mSplitInfo = new String();
 	private String mSplitRatio = new String();
+	private String[] mRatioStrings = new String[]{};
 	
 	private TextView mBillTextView;
 	private Spinner mSplitForSpinner;
@@ -145,8 +148,7 @@ public class SplitterFragment extends Fragment implements FinalBillChangeListene
 	@Override
 	public void onSplitRatioChanged(String ratio) {
 		Log.i(TAG, "Split ratio recieved: " + ratio);
-		
-		// TODO Auto-generated method stub
+		splitByRatio(ratio);
 	}
 
 	/* (non-Javadoc)
@@ -171,7 +173,7 @@ public class SplitterFragment extends Fragment implements FinalBillChangeListene
 			long id) {
 		mSplitFor = Integer.parseInt(mSplitForSpinner.getSelectedItem().toString().replaceAll("[\\D]",""));
 		Log.v(TAG, "Splitting for: " + mSplitFor);
-		if (mSplitEvenRadioButton.isChecked() || mSplitEvenRadioButton.isChecked()) {
+		if (mSplitEvenRadioButton.isChecked() || mSplitRatioRadioButton.isChecked()) {
 			doSplit();
 		}
 	}
@@ -212,7 +214,6 @@ public class SplitterFragment extends Fragment implements FinalBillChangeListene
 		mSplitEvenResultTextView = (TextView) getView().findViewById(R.id.evenSplitAmountTextView);
 		mSplitEvenResultLayout = (LinearLayout) getView().findViewById(R.id.splitEvenResultLayout);
 		mSplitRatioResultsListView = (ListView) getView().findViewById(R.id.splitRatioResultsListView);
-		
 		mBillTextView.setText(MainActivity.sCurrencySymbol + String.format("%.02f", mFinalBill));
 		mSplitRadioGroup.clearCheck();
 		mSplitRadioGroup.setOnCheckedChangeListener(this);
@@ -228,13 +229,7 @@ public class SplitterFragment extends Fragment implements FinalBillChangeListene
 	private void doSplit() {
 		Log.v(TAG, "Attempting to do split...");
 		if (mSplitEven) {
-			Log.v(TAG, "Splitting even.:.");
-			mSplitEvenResultLayout.setVisibility(View.VISIBLE);
-			mSplitRatioResultsListView.setVisibility(View.GONE);
-			mSplitInfo = getString(R.string.split_on_text_view);
-			mSplitRatio = getString(R.string.split_ratio_text_view);
-			mSplitEvenResultTextView.setText(MainActivity.sCurrencySymbol 
-					+ String.format("%.02f", mFinalBill/mSplitFor));
+			splitEven();
 		} else {
 			if (mFinalBill == 0.0) {
 				mSplitRadioGroup.clearCheck();
@@ -242,13 +237,41 @@ public class SplitterFragment extends Fragment implements FinalBillChangeListene
 						getString(R.string.ratio_no_bill_warning),
 						Toast.LENGTH_SHORT).show();
 			} else {
-				Log.v(TAG, "Splitting by ratio.:..");
-				mSplitRatioResultsListView.setVisibility(View.VISIBLE);
-				mSplitEvenResultLayout.setVisibility(View.GONE);
 				RatioDialog.newInstance(mFinalBill, mSplitFor)
 					.show(getFragmentManager(), RatioDialog.TAG);
 			}
 		}
+		updateSplitInfoRow();
+	}
+	
+	/**
+	 * Split evenly.
+	 */
+	private void splitEven() {
+		Log.v(TAG, "Splitting even.:.");
+		mSplitEvenResultLayout.setVisibility(View.VISIBLE);
+		mSplitRatioResultsListView.setVisibility(View.GONE);
+		mSplitInfo = getString(R.string.split_on_text_view);
+		mSplitRatio = getString(R.string.split_ratio_text_view);
+		mSplitEvenResultTextView.setText(MainActivity.sCurrencySymbol 
+				+ String.format("%.02f", mFinalBill/mSplitFor));
+	}
+	
+	/**
+	 * Split by ratio.
+	 */
+	private void splitByRatio(String ratio) {
+		Log.v(TAG, "Splitting by ratio.:..");
+		mSplitRatioResultsListView.setVisibility(View.VISIBLE);
+		mSplitEvenResultLayout.setVisibility(View.GONE);
+		mSplitInfo = getString(R.string.split_on_text_view);
+		mSplitRatio = ratio;	
+		mRatioStrings = ratio.split(":");
+		mRatios = new int[mRatioStrings.length];
+		for (int i=0; i < mRatioStrings.length; i++) {
+			mRatios[i] = Integer.parseInt(mRatioStrings[i]);
+		}
+		mSplitRatioResultsListView.setAdapter(new RatioShareAdapter(getActivity(), mRatios, mFinalBill));
 		updateSplitInfoRow();
 	}
 	
@@ -259,4 +282,5 @@ public class SplitterFragment extends Fragment implements FinalBillChangeListene
 		mSplitInfoTextView.setText(mSplitInfo);
 		mSplitRatioTextView.setText(mSplitRatio);
 	}
+	
 }

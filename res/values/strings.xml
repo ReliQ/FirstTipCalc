@@ -83,8 +83,8 @@
     </string-array>
     
     <string name="ratio_no_bill_warning">You must enter a bill amount to split by ratio.</string> 
-    <string name="ratio_hint_text">Enter %1$d ratios separated by ":" below:</string> 
-     <string name="ratio_invalid">Invalid ratio for %1$d way split. Please provide %1$d ratios.</string> 
+    <string name="ratio_hint_text">Enter a ratio containing %1$d proportions separated by \":\" below (eg. 5:3:1):</string> 
+     <string name="ratio_invalid">Invalid ratio for %1$d way split. Please provide %1$d proportions.</string> 
     
     <string name="title_activity_main">Tip Calculator &amp; Advisor</string>
     <string name="title_section1">Calculate</string>

@@ -15,7 +15,7 @@
  limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.reliqartz.firsttipcalc"
+    package="com.reliqartz.firsttipcalc.beta"
     android:versionCode="39"
     android:versionName="0.9.0 beta reVa" >
 
@@ -26,6 +26,7 @@
     <supports-screens android:largestWidthLimitDp="600" />
 
     <application
+        android:name="com.reliqartz.firsttipcalc.FirstTipApplication"
         android:allowBackup="true"
         android:description="@string/app_description"
         android:icon="@drawable/ic_launcher"
@@ -33,7 +34,7 @@
         android:logo="@drawable/ic_launcher"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.reliqartz.firsttipcalc.MainActivity"
+            android:name="com.reliqartz.firsttipcalc.gui.MainActivity"
             android:label="@string/title_activity_main" >
             <intent-filter android:label="@string/app_shortname" >
                 <action android:name="android.intent.action.MAIN" />
@@ -41,9 +42,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.reliqartz.firsttipcalc.SettingsActivity"
+            android:name="com.reliqartz.firsttipcalc.gui.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="com.reliqartz.firsttipcalc.MainActivity" >
+            android:parentActivityName="com.reliqartz.firsttipcalc.gui.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.reliqartz.firsttipcalc.MainActivity" />

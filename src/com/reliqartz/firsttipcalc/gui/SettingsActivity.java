@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package com.reliqartz.firsttipcalc;
+package com.reliqartz.firsttipcalc.gui;
 
 import java.util.List;
+
+import com.reliqartz.firsttipcalc.beta.R;
 
 import android.annotation.TargetApi;
 import android.content.Context;
