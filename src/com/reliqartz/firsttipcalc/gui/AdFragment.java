@@ -33,7 +33,7 @@ import com.reliqartz.firsttipcalc.FirstTipApplication;
  */
 public abstract class AdFragment extends Fragment {
 	private static final String TAG = "FirstTip/AdFragment";
-	private static final String PRIMARY_AD_UNIT_ID = "";
+	private static final String PRIMARY_AD_UNIT_ID = " ";
 	protected AdView mAdView;  
 	 
 	/* (non-Javadoc) 
