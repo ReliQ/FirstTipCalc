@@ -15,9 +15,9 @@
  limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.reliqartz.firsttipcalc.beta"
-    android:versionCode="39"
-    android:versionName="0.9.0 beta reVa" >
+    package="com.reliqartz.firsttipcalc"
+    android:versionCode="40"
+    android:versionName="2.0.0" >
 
     <uses-sdk
         android:minSdkVersion="11"

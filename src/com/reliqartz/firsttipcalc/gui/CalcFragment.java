@@ -34,7 +34,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-import com.reliqartz.firsttipcalc.beta.R;
+import com.reliqartz.firsttipcalc.R;
 import com.reliqartz.firsttipcalc.interfaces.FinalBillChangeListener;
 import com.reliqartz.firsttipcalc.utils.FontApplicator;
 import com.reliqartz.firsttipcalc.utils.FontLibrary;

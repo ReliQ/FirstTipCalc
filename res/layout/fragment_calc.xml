@@ -70,9 +70,11 @@
 			            android:layout_weight="1"
 			            android:ems="5"
 			            android:hint="@string/bill_edit_text"
+			            android:imeOptions="actionDone|flagNoExtractUi|flagNoEnterAction"
 			            android:inputType="numberDecimal"
 			            android:maxLength="12"
-			            android:textSize="25sp" />
+			            android:textSize="28sp" />
+
 			    </LinearLayout>
 
 			    <LinearLayout

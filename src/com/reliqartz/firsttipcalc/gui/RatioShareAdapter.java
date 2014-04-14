@@ -18,7 +18,7 @@ package com.reliqartz.firsttipcalc.gui;
 
 import java.util.ArrayList;
 
-import com.reliqartz.firsttipcalc.beta.R;
+import com.reliqartz.firsttipcalc.R;
 import com.reliqartz.firsttipcalc.utils.FontLibrary;
 
 import android.content.Context;

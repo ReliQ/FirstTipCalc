@@ -32,7 +32,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.reliqartz.firsttipcalc.beta.R;
+import com.reliqartz.firsttipcalc.R;
 import com.reliqartz.firsttipcalc.interfaces.FinalBillChangeListener;
 import com.reliqartz.firsttipcalc.interfaces.SplitRatioChangeListener;
 import com.reliqartz.firsttipcalc.utils.FontApplicator;
