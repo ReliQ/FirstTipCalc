@@ -172,13 +172,20 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		if (itemId == R.id.action_refresh) {
 			i = getIntent();
 			finish();
-			//i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 			startActivity(i);
 			overridePendingTransition (0,0);
 			return true;
 		} else if (itemId == R.id.action_settings) {
 			i = new Intent(this, SettingsActivity.class);
 			startActivity(i);
+			return true;
+		} else if (itemId == R.id.action_feedback) {
+			i = new Intent(android.content.Intent.ACTION_SEND);
+			i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ "info@reliqartz.com" });
+			i.putExtra(android.content.Intent.EXTRA_SUBJECT, "Feedback: First Tip App");
+			i.putExtra(android.content.Intent.EXTRA_TEXT, "Hello, ");
+			i.setType("message/rfc822");
+			startActivity(i); 
 			return true;
 		} else {
 			return super.onOptionsItemSelected(item);
