@@ -35,13 +35,12 @@ public abstract class AdFragment extends Fragment {
 	private static final String TAG = "FirstTip/AdFragment";
 	private static final String PRIMARY_AD_UNIT_ID = "";
 	protected AdView mAdView;  
-	/* (non-Javadoc)
+	/* (non-Javadoc) 
 	 * @see android.support.v4.app.Fragment#onStart()
 	 */
 	@Override
 	public void onStart() {
 		super.onStart();
-		
 		mAdView = new AdView(getActivity());
 		mAdView.setAdSize(AdSize.BANNER);
 		mAdView.setAdUnitId(PRIMARY_AD_UNIT_ID);
@@ -68,6 +67,18 @@ public abstract class AdFragment extends Fragment {
 	      mAdView.pause();
 	    }
 		super.onPause();
+	}
+	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onDestroy()
+	 */
+	@Override
+	public void onDestroy() {
+		// Destroy the AdView.
+		if (mAdView != null) {
+			mAdView.destroy();
+		}
+		super.onDestroy();
 	}
 	
 	/**
