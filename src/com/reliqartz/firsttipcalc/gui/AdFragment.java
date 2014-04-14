@@ -33,7 +33,7 @@ import com.reliqartz.firsttipcalc.FirstTipApplication;
  */
 public abstract class AdFragment extends Fragment {
 	private static final String TAG = "FirstTip/AdFragment";
-	private static final String PRIMARY_AD_UNIT_ID = " ";
+	private static final String PRIMARY_AD_UNIT_ID = "";
 	protected AdView mAdView;  
 	 
 	/* (non-Javadoc) 
@@ -42,10 +42,6 @@ public abstract class AdFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		mAdView = new AdView(getActivity());
-		mAdView.setAdSize(AdSize.BANNER);
-		mAdView.setAdUnitId(PRIMARY_AD_UNIT_ID);
-		mAdView.setVisibility(View.GONE);
 	}
 
 	/* (non-Javadoc)
@@ -87,19 +83,25 @@ public abstract class AdFragment extends Fragment {
 	 * @param viewId The id of the view in which the ad should be placed.
 	 */
 	protected void initAd(int viewId) {
-		((LinearLayout) getView().findViewById(viewId))
-				.addView(mAdView);
-		mAdView.setAdListener(new AdListener() {
-			@Override
-			public void onAdLoaded() {
-				mAdView.setVisibility(View.VISIBLE);
-			}
-			@Override
-			public void onAdFailedToLoad(int errorCode) {
-				mAdView.setVisibility(View.GONE);
-				Log.w(TAG, "Ad failed to load: " + errorCode);
-			}
-		});
+		if(mAdView == null) {
+			mAdView = new AdView(getActivity());
+			mAdView.setAdSize(AdSize.SMART_BANNER);
+			mAdView.setAdUnitId(PRIMARY_AD_UNIT_ID);
+			mAdView.setVisibility(View.GONE);
+			((LinearLayout) getView().findViewById(viewId))
+					.addView(mAdView);
+			mAdView.setAdListener(new AdListener() {
+				@Override
+				public void onAdLoaded() {
+					mAdView.setVisibility(View.VISIBLE);
+				}
+				@Override
+				public void onAdFailedToLoad(int errorCode) {
+					mAdView.setVisibility(View.GONE);
+					Log.w(TAG, "Ad failed to load: " + errorCode);
+				}
+			});
+		}	
 	}
 	
 	/**
