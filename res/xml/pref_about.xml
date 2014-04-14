@@ -23,9 +23,12 @@
         android:selectable="false" />
     
     <Preference
-        android:key="pref_policy"
+        android:key="pref_version"
         android:title="@string/pref_version"
         android:summary="@string/pref_version_summ"
-        android:selectable="false" />
+        android:selectable="true" >
+		<intent android:action="android.intent.action.VIEW"
+            android:data="http://www.reliqartz.com" />
+	</Preference>
 
 </PreferenceScreen>
