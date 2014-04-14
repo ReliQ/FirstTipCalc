@@ -22,6 +22,8 @@
     <uses-sdk
         android:minSdkVersion="11"
         android:targetSdkVersion="19" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+  	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     
     <supports-screens android:largestWidthLimitDp="600" />
 
@@ -33,6 +35,8 @@
         android:label="@string/app_name"
         android:logo="@drawable/ic_launcher"
         android:theme="@style/AppTheme" >
+        <meta-data android:name="com.google.android.gms.version"
+           android:value="@integer/google_play_services_version" />
         <activity
             android:name="com.reliqartz.firsttipcalc.gui.MainActivity"
             android:label="@string/title_activity_main" >
@@ -49,6 +53,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.reliqartz.firsttipcalc.MainActivity" />
         </activity>
+        <activity android:name="com.google.android.gms.ads.AdActivity"
+             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
     </application>
 
 </manifest>

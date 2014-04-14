@@ -15,24 +15,30 @@
  limitations under the License.
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-
-    <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
-    <ListPreference
-        android:defaultValue="$"
-        android:entries="@array/pref_currencies"
-        android:entryValues="@array/pref_currencies"
-        android:key="pref_currency"
-        android:negativeButtonText="@null"
-        android:positiveButtonText="@null"
-        android:title="@string/pref_currency" />
+	
+    <!-- NOTE: Only category added by xml is the first (this one) -->
+    <PreferenceCategory
+        android:title="@string/pref_header_general" 
+        android:key="fakeGeneralHeader" >
+    </PreferenceCategory>
     
-    <ListPreference
-        android:defaultValue="5 percent"
-        android:entries="@array/pref_base_tips"
-        android:entryValues="@array/pref_base_tips"
-        android:key="pref_base_tip"
-        android:negativeButtonText="@null"
-        android:positiveButtonText="@null"
-        android:title="@string/pref_base_tip" />
+	    <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
+	    <ListPreference
+	        android:defaultValue="$"
+	        android:entries="@array/pref_currencies"
+	        android:entryValues="@array/pref_currencies"
+	        android:key="pref_currency"
+	        android:negativeButtonText="@null"
+	        android:positiveButtonText="@null"
+	        android:title="@string/pref_currency" />
+	    
+	    <ListPreference
+	        android:defaultValue="5 percent"
+	        android:entries="@array/pref_base_tips"
+	        android:entryValues="@array/pref_base_tips"
+	        android:key="pref_base_tip"
+	        android:negativeButtonText="@null"
+	        android:positiveButtonText="@null"
+	        android:title="@string/pref_base_tip" />
 
 </PreferenceScreen>

@@ -16,9 +16,9 @@
 -->
 <resources>
     <!-- Key colors -->
-    <color name="actionbar">@color/firstblue1</color>
-    <color name="actionbar_popup_menu">@color/firstblue2</color>
-    <color name="actionbar_dropdown_item_pressed">@color/barblue_bright</color>
+    <color name="actionbar">@color/firstblue0</color>
+    <color name="actionbar_popup_menu">@color/firstblue1</color>
+    <color name="actionbar_dropdown_item_pressed">@color/firstblue2</color>
     <color name="actionbar_tab_text">@color/emphasis</color>
     <color name="accents">@color/spokgreen</color>
     
@@ -31,12 +31,16 @@
     <color name="dark_brown">#6c4b11</color>
     <color name="dark_essence">#111111</color>
     <color name="emphasis">#31b6e7</color>
-    <color name="firstblue1">#00aaeb</color>
-    <color name="firstblue1_trans">#8500aaeb</color>
-    <color name="firstblue2">#00adef</color>
-    <color name="firstblue2_trans">#8500adef</color>
+    <color name="firstblue0">#55acee</color>
+    <color name="firstblue0_trans">#8555acee</color>
+    <color name="firstblue1">#5babe8</color>
+    <color name="firstblue1_trans">#855babe8</color>
+    <color name="firstblue2">#00aaeb</color>
+    <color name="firstblue2_trans">#8500aaeb</color>
     <color name="firstblue3">#00adef</color>
     <color name="firstblue3_trans">#8500adef</color>
+    <color name="firstblue4">#00adef</color>
+    <color name="firstblue4_trans">#8500adef</color>
     <color name="gold_well">#ffce59</color>
     <color name="hashblue">#40c3ff</color>
     <color name="hazeblue_dark">#345f6f</color>

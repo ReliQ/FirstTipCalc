@@ -81,18 +81,18 @@ public class SettingsActivity extends PreferenceActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case android.R.id.home:
-				// This ID represents the Home or Up button. In the case of this
-				// activity, the Up button is shown. Use NavUtils to allow users
-				// to navigate up one level in the application structure. For
-				// more details, see the Navigation pattern on Android Design:
-				//
-				// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-				//
-				// TODO: If Settings has multiple levels, Up should navigate up
-				// that hierarchy.
-				NavUtils.navigateUpFromSameTask(this);
-				return true;
+		case android.R.id.home:
+			// This ID represents the Home or Up button. In the case of this
+			// activity, the Up button is shown. Use NavUtils to allow users
+			// to navigate up one level in the application structure. For
+			// more details, see the Navigation pattern on Android Design:
+			//
+			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
+			//
+			// TODO: If Settings has multiple levels, Up should navigate up
+			// that hierarchy.
+			NavUtils.navigateUpFromSameTask(this);
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -119,16 +119,23 @@ public class SettingsActivity extends PreferenceActivity {
 		// use the older PreferenceActivity APIs.
 
 		// Add 'general' preferences.
-		PreferenceCategory fakeHeader = new PreferenceCategory(this);
-		fakeHeader = new PreferenceCategory(this);
-		fakeHeader.setTitle(R.string.pref_header_general);
+		// general preference xml already has a header. no fakeheader needed.
 		addPreferencesFromResource(R.xml.pref_general);
 
-		// Add 'notifications' preferences, and a corresponding header.
-		/*PreferenceCategory fakeHeader = new PreferenceCategory(this);
-		fakeHeader.setTitle(R.string.pref_header_notifications);
+		// Add 'bill splitting' preferences.
+		PreferenceCategory fakeHeader = new PreferenceCategory(this);
+		fakeHeader = new PreferenceCategory(this);
+		fakeHeader.setTitle(R.string.pref_header_bill_splitting);
 		getPreferenceScreen().addPreference(fakeHeader);
-		addPreferencesFromResource(R.xml.pref_notification);*/
+		addPreferencesFromResource(R.xml.pref_bill_splitting);
+
+		// Add 'notifications' preferences, and a corresponding header.
+		/*
+		 * PreferenceCategory fakeHeader = new PreferenceCategory(this);
+		 * fakeHeader.setTitle(R.string.pref_header_notifications);
+		 * getPreferenceScreen().addPreference(fakeHeader);
+		 * addPreferencesFromResource(R.xml.pref_notification);
+		 */
 
 		// Add 'data and sync' preferences, and a corresponding header.
 		fakeHeader = new PreferenceCategory(this);
@@ -141,7 +148,7 @@ public class SettingsActivity extends PreferenceActivity {
 		// to reflect the new value, per the Android Design guidelines.
 		bindPreferenceSummaryToValue(findPreference("pref_currency"));
 		bindPreferenceSummaryToValue(findPreference("pref_base_tip"));
-		//bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
+		// bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
 	}
 
 	/** {@inheritDoc} */
@@ -266,6 +273,10 @@ public class SettingsActivity extends PreferenceActivity {
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			addPreferencesFromResource(R.xml.pref_general);
+			
+			// remove fake preference in pref general XML
+			getPreferenceScreen().removePreference(
+					(PreferenceCategory) findPreference("fakeGeneralHeader"));
 
 			// Bind the summaries of EditText/List/Dialog/Ringtone preferences
 			// to their values. When their values change, their summaries are
@@ -273,6 +284,20 @@ public class SettingsActivity extends PreferenceActivity {
 			// guidelines.
 			bindPreferenceSummaryToValue(findPreference("pref_currency"));
 			bindPreferenceSummaryToValue(findPreference("pref_base_tip"));
+		}
+	}
+
+	/**
+	 * This fragment shows bill splitting preferences only. It is used when the
+	 * activity is showing a two-pane settings UI.
+	 */
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	public static class BillSplittingPreferenceFragment extends
+			PreferenceFragment {
+		@Override
+		public void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+			addPreferencesFromResource(R.xml.pref_bill_splitting);
 		}
 	}
 

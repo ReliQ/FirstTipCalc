@@ -80,6 +80,11 @@
         <item>5 people</item>
         <item>6 people</item>
         <item>7 people</item>
+        <item>8 people</item>
+    	<item>9 people</item>
+    	<item>10 people</item>
+    	<item>11 people</item>
+    	<item>12 people</item>
     </string-array>
     
     <string name="ratio_no_bill_warning">You must enter a bill amount to split by ratio.</string> 

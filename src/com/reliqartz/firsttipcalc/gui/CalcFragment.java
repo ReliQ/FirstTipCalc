@@ -17,7 +17,6 @@
 package com.reliqartz.firsttipcalc.gui;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -44,7 +43,7 @@ import com.reliqartz.firsttipcalc.utils.FontLibrary;
  * Tip calculator.
  * @author Patrick Reid
  */
-public class CalcFragment extends Fragment implements FontApplicator.Fonty {
+public class CalcFragment extends AdFragment implements FontApplicator.Fonty {
 	public static final String TAG = "FirstTip/Calc";
 
 	private static final int PROGRESS_MAX = 100;
@@ -86,8 +85,6 @@ public class CalcFragment extends Fragment implements FontApplicator.Fonty {
 			mFinalBill = savedInstanceState.getDouble(TOTAL_BILL);
 		}
 	}
-	
-	
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onActivityCreated(android.os.Bundle)
@@ -102,8 +99,6 @@ public class CalcFragment extends Fragment implements FontApplicator.Fonty {
 			mSeekBarTip = MainActivity.sBaseTip;
 		}
 	}
-
-
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
@@ -142,6 +137,24 @@ public class CalcFragment extends Fragment implements FontApplicator.Fonty {
 		outState.putDouble(CURRENT_TIP, mTipAmount);
 		outState.putDouble(TOTAL_BILL, mFinalBill);
 		outState.putInt(SEEKBAR_TIP, mTipSeekBar.getProgress());
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.reliqartz.firsttipcalc.utils.FontApplicator.Fonty#applyFonts()
+	 */
+	@Override
+	public void applyFonts() {
+		// apply overall font
+		((MainActivity) getActivity()).getFontApplicator().applyFont(getView());
+		
+		// apply specific fonts
+		final FontApplicator fontApp = new FontApplicator(getActivity(), FontLibrary.ROBOTO);
+		fontApp.applyFont(mBillTextView);
+		fontApp.applyFont(mBaseTipTextView);
+		fontApp.applyFont(mFinalTipTextView);
+		fontApp.applyFont(mFinalTipAmountET);
+		fontApp.applyFont(getView().findViewById(R.id.finalBillLayout));
+		fontApp.applyFont(getView().findViewById(R.id.autoTippingTextView));
 	}
 	
 	private TextWatcher billBeforeTipListener = new TextWatcher(){
@@ -195,24 +208,6 @@ public class CalcFragment extends Fragment implements FontApplicator.Fonty {
 		
 	};
 	
-	/* (non-Javadoc)
-	 * @see com.reliqartz.firsttipcalc.utils.FontApplicator.Fonty#applyFonts()
-	 */
-	@Override
-	public void applyFonts() {
-		// apply overall font
-		((MainActivity) getActivity()).getFontApplicator().applyFont(getView());
-		
-		// apply specific fonts
-		final FontApplicator fontApp = new FontApplicator(getActivity(), FontLibrary.ROBOTO);
-		fontApp.applyFont(mBillTextView);
-		fontApp.applyFont(mBaseTipTextView);
-		fontApp.applyFont(mFinalTipTextView);
-		fontApp.applyFont(mFinalTipAmountET);
-		fontApp.applyFont(getView().findViewById(R.id.finalBillLayout));
-		fontApp.applyFont(getView().findViewById(R.id.autoTippingTextView));
-	}
-	
 	/**
 	 * Setup controllers. 
 	 */
@@ -258,6 +253,9 @@ public class CalcFragment extends Fragment implements FontApplicator.Fonty {
 		mTipSeekBar.setProgress(mSeekBarTip);
 		mTipAmount = (mTipSeekBar.getProgress()) * .01; 
 		mTipAmountET.setText(String.format("%.0f", mTipAmount*100) + "%");
+		
+		// setup lower ad
+		initAd(R.id.lowerLayout);
 		
 		setUpCheckBoxes();
 		addChangeListenerToRadios();
@@ -378,7 +376,11 @@ public class CalcFragment extends Fragment implements FontApplicator.Fonty {
 		mFinalBillET.setText(mCurrency + String.format("%.02f", mFinalBill));
 		
 		// pass final bill to activity
-		((FinalBillChangeListener) getActivity()).onFinalBillChanged(mFinalBill);
+		if (MainActivity.sSplitInclusive) {
+			((FinalBillChangeListener) getActivity()).onFinalBillChanged(mFinalBill);
+		} else {
+			((FinalBillChangeListener) getActivity()).onFinalBillChanged(mBillBeforeTip);
+		}
 	}
 
 }

@@ -48,10 +48,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private static final String KEYBOARD_PREF_KEY = "pref_keyboard";
 	private static final String CURRENCY_PREF_KEY = "pref_currency";
 	private static final String BASE_TIP_PREF_KEY = "pref_base_tip";
+	private static final String SPLIT_INCLUSIVE_PREF_KEY = "pref_split_inclusive";
 	
 	// Preferences
 	public static boolean sStartWithKeyboard = false;
-	public static int sBaseTip = 15;
+	public static boolean sSplitInclusive = true;
+	public static int sBaseTip = 5;
 	public static String sCurrencySymbol = "$";
 	
 	private CalcFragment mCalculator;
@@ -166,19 +168,20 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public boolean onOptionsItemSelected(MenuItem item) {
 		final Intent i;
 		Log.d(TAG, "Menu item selected: "+ item.getItemId());
-		switch (item.getItemId()) {
-			case R.id.action_refresh:
-				i = getIntent(); finish();
-				//i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-				startActivity(i);
-				overridePendingTransition (0,0);
-				return true;
-			case R.id.action_settings:
-				i = new Intent(this, SettingsActivity.class);
-				startActivity(i);
-				return true;
-			default:
-		        return super.onOptionsItemSelected(item);
+		int itemId = item.getItemId();
+		if (itemId == R.id.action_refresh) {
+			i = getIntent();
+			finish();
+			//i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+			startActivity(i);
+			overridePendingTransition (0,0);
+			return true;
+		} else if (itemId == R.id.action_settings) {
+			i = new Intent(this, SettingsActivity.class);
+			startActivity(i);
+			return true;
+		} else {
+			return super.onOptionsItemSelected(item);
 		}
 	}
 
@@ -306,13 +309,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	 */
 	private void loadPreferences() {
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		sStartWithKeyboard = settings.getBoolean(KEYBOARD_PREF_KEY, false);
+		sStartWithKeyboard = settings.getBoolean(KEYBOARD_PREF_KEY, sStartWithKeyboard);
+		sSplitInclusive = settings.getBoolean(SPLIT_INCLUSIVE_PREF_KEY, sSplitInclusive);
 		sCurrencySymbol = settings.getString(CURRENCY_PREF_KEY, sCurrencySymbol);
 		sBaseTip = Integer.parseInt(settings.getString(BASE_TIP_PREF_KEY, sBaseTip + "").replaceAll("[\\D]",""));
 		settings.registerOnSharedPreferenceChangeListener(this);
-		
-		Log.v(TAG, "Currency: " + sCurrencySymbol);
-		Log.v(TAG, "Base Tip: " + sBaseTip);
 	}
 
 }

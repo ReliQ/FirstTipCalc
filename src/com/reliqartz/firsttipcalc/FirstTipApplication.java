@@ -17,22 +17,46 @@
 package com.reliqartz.firsttipcalc;
 
 import android.app.Application;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 /**
  * The application class.
  * @author Patrick Reid
  */
-public class FirstTipApplication extends Application {
+public class FirstTipApplication extends Application implements OnSharedPreferenceChangeListener {
 	private static final String TAG = "FirstTip";
-
+	private static final String ADS_PREF_KEY = "pref_ads";
+	
+	public static boolean sShowAds = true;
+	
 	/* (non-Javadoc)
 	 * @see android.app.Application#onCreate()
 	 */
 	@Override
 	public void onCreate() {
-		Log.v(TAG, "Application started.");
 		super.onCreate();
+		Log.v(TAG, "Application started.");
+		loadPreferences();
+	}
+	
+	/* (non-Javadoc)
+	 * @see android.content.SharedPreferences.OnSharedPreferenceChangeListener#onSharedPreferenceChanged(android.content.SharedPreferences, java.lang.String)
+	 */
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		loadPreferences();
+	}
+	
+	/**
+	 * Load application preferences.
+	 */
+	private void loadPreferences() {
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		sShowAds = settings.getBoolean(ADS_PREF_KEY, true);
+		settings.registerOnSharedPreferenceChangeListener(this);
 	}
 	
 }

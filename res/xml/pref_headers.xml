@@ -21,6 +21,9 @@
     <header
         android:fragment="com.reliqartz.firsttipcalc.SettingsActivity$GeneralPreferenceFragment"
         android:title="@string/pref_header_general" />
+    <header
+        android:fragment="com.reliqartz.firsttipcalc.SettingsActivity$BillSplittingPreferenceFragment"
+        android:title="@string/pref_header_bill_splitting" />
     <!-- <header
         android:fragment="com.reliqartz.firsttipcalc.SettingsActivity$NotificationPreferenceFragment"
         android:title="@string/pref_header_notifications" /> -->
