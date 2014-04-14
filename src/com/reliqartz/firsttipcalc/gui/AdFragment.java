@@ -32,9 +32,9 @@ import com.reliqartz.firsttipcalc.FirstTipApplication;
  * @author Patrick Reid
  */
 public abstract class AdFragment extends Fragment {
-	private static final String TAG = "AdFragment";
+	private static final String TAG = "FirstTip/AdFragment";
 	private static final String PRIMARY_AD_UNIT_ID = "";
-	protected AdView mAdView;
+	protected AdView mAdView;  
 	
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onStart()
