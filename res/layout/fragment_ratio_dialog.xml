@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:imeOptions="actionDone|flagNoExtractUi|flagNoEnterAction"
+        android:imeOptions="actionDone|flagNoExtractUi"
         android:inputType="text" >
 
     </EditText>

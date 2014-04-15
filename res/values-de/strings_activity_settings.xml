@@ -60,7 +60,7 @@
     <string name="pref_usage">Benutzerrichtlinien</string>
     <string name="pref_usage_summ">First Tip - Tip Calculator &amp; Advisor ist nur für den persönlichen und nicht-kommerziellen Gebrauch.</string>
     <string name="pref_version">@string/app_name</string>
-    <string name="pref_version_summ">Version 2.0 | &#169; ReliQ Artz</string>
+    <string name="pref_version_summ">Version 2.0.1 | &#169; ReliQ Artz</string>
     
     
     <!-- Example settings for Notifications -->
