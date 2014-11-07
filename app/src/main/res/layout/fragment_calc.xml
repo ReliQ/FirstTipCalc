@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+ Copyright 2014 ReliQ Artz
+	
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+	
+	http://www.apache.org/licenses/LICENSE-2.0
+	
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/calcLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/sleek_page"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never" >
+
+		<LinearLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="vertical" >
+
+			<LinearLayout
+			    android:id="@+id/billAndTipLayout"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:background="@color/transparent"
+			    android:orientation="vertical"
+			    android:paddingBottom="@dimen/big_wave"
+			    android:paddingLeft="@dimen/activity_horizontal_margin"
+			    android:paddingRight="@dimen/activity_horizontal_margin"
+			    android:paddingTop="@dimen/big_wave" >
+
+			    <LinearLayout
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content" >
+
+			        <TextView
+			            android:id="@+id/billTextView"
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:text="@string/bill_text_view"
+			            android:textColor="@color/hazeblue_dark" />
+
+			        <TextView
+			            android:id="@+id/dollarSignTextView"
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:paddingLeft="20dp"
+			            android:text="@string/dollar_text_view"
+			            android:textColor="#777777" />
+
+			        <EditText
+			            android:id="@+id/billEditText"
+			            android:layout_width="0dp"
+			            android:layout_height="wrap_content"
+			            android:layout_weight="1"
+			            android:ems="5"
+			            android:hint="@string/bill_edit_text"
+			            android:imeOptions="actionDone|flagNoExtractUi"
+			            android:inputType="numberDecimal"
+			            android:maxLength="12"
+			            android:textSize="28sp" />
+
+			    </LinearLayout>
+
+			    <LinearLayout
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+			        android:paddingTop="10dp" >
+
+			        <TextView
+			            android:id="@+id/tipTextView"
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:text="@string/tip_text_view"
+			            android:textColor="@color/hazeblue_dark" />
+
+			        <SeekBar
+			            android:id="@+id/tipSeekBar"
+			            android:layout_width="wrap_content"
+			            android:layout_height="wrap_content"
+			            android:layout_marginTop="0dp"
+			            android:layout_weight="3"
+			            android:ems="4"
+			            android:max="100"
+			            android:progress="15" />
+
+			        <EditText
+			            android:id="@+id/tipEditText"
+			            android:layout_width="50dp"
+			            android:layout_height="wrap_content"
+			            android:layout_weight="0.24"
+			            android:background="@color/transparent"
+			            android:ems="4"
+			            android:focusable="false"
+			            android:focusableInTouchMode="false"
+			            android:gravity="center"
+			            android:inputType="numberDecimal"
+			            android:text="@string/tip_edit_text"
+			            android:textColor="#4a799d" />
+
+			    </LinearLayout>
+			    
+			</LinearLayout>
+		
+		    <TextView
+		        android:id="@+id/autoTippingTextView"
+		        style="@style/DivisionHeader"
+		        android:layout_marginTop="0dp"
+		        android:text="@string/auto_tipping_text_view"
+		        android:textColor="@color/hazeblue_dark" />
+		
+		    <LinearLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:background="@color/gentle_shade"
+		        android:orientation="vertical"
+		        android:padding="10dp" >
+
+		        <TextView
+		            android:id="@+id/introTextView"
+		            style="@style/SectionHeader"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/intro_text_view" />
+
+		        <LinearLayout
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:orientation="vertical" >
+
+		            <CheckBox
+		                android:id="@+id/friendlyCheckBox"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:text="@string/intro_friendly_text_view" />
+
+		            <CheckBox
+		                android:id="@+id/courtesyCheckBox"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:text="@string/intro_courtesy_text_view" />
+
+		            <CheckBox
+		                android:id="@+id/specialsCheckBox"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:text="@string/intro_specials_text_view" />
+
+		            <CheckBox
+		                android:id="@+id/opinionCheckBox"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:text="@string/intro_opinion_text_view" />
+		        </LinearLayout>
+
+		        <TextView
+		            android:id="@+id/rulesTextView"
+		            style="@style/SectionHeader"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/rules_text_view" />
+
+		        <LinearLayout
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:orientation="vertical" >
+
+		            <CheckBox
+		                android:id="@+id/foodCheckBox"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:text="@string/rules_food_text_view" />
+
+		            <CheckBox
+		                android:id="@+id/drinksCheckBox"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:text="@string/rules_drinks_text_view" />
+		        </LinearLayout>
+
+		        <TextView
+		            android:id="@+id/traitsTextView"
+		            style="@style/SectionHeader"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/traits_text_view" />
+
+		        <LinearLayout
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"
+		            android:orientation="vertical" >
+
+		            <CheckBox
+		                android:id="@+id/attentiveCheckBox"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:text="@string/traits_attentive_text_view" />
+
+		            <CheckBox
+		                android:id="@+id/judgementCheckBox"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:text="@string/traits_judgement_text_view" />
+
+		            <CheckBox
+		                android:id="@+id/groomedCheckBox"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:text="@string/traits_groomed_text_view" />
+
+		        </LinearLayout>
+
+		        <TextView
+		            android:id="@+id/AvailableTextView"
+		            style="@style/SectionHeader"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:text="@string/available_text_view" />
+
+		        <RadioGroup
+		            android:id="@+id/availableRadioGroup"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:orientation="horizontal" >
+
+		            <RadioButton
+		                android:id="@+id/availableBadRadio"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:checked="true"
+		                android:text="@string/available_bad_radiobutton" />
+
+		            <RadioButton
+		                android:id="@+id/availableOkRadio"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:text="@string/available_ok_radiobutton" />
+
+		            <RadioButton
+		                android:id="@+id/availableGoodRadio"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content"
+		                android:text="@string/available_good_radiobutton" />
+		        </RadioGroup>
+		        
+		    </LinearLayout>
+
+		</LinearLayout>
+    </ScrollView>
+    
+	<LinearLayout
+	    android:id="@+id/lowerLayout"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	    android:background="@color/accents" >
+		
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:background="@color/emphasis" 
+	        android:paddingTop="2dp"
+	        android:paddingBottom="2dp"
+	        android:paddingLeft="5dp"
+	        android:paddingRight="5dp" >
+	        
+	        <TextView
+	            android:id="@+id/finalTipTextView"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="@string/final_tip_text_view"
+	            android:textColor="#ffffff" />
+			
+			 <EditText
+			     android:id="@+id/finalTipPercentEditText"
+			     android:layout_width="wrap_content"
+			     android:layout_height="wrap_content"
+			     android:background="#00000000"
+			     android:focusable="false"
+			     android:focusableInTouchMode="false"
+			     android:inputType="numberDecimal"
+			     android:paddingLeft="5dp"
+			     android:text="@string/final_tip_percentage_edit_text"
+			     android:textColor="#ffffff" >
+			 </EditText>
+			 
+			 <EditText
+			     android:id="@+id/finalTipEditText"
+			     android:layout_height="wrap_content"
+			     android:layout_width="0dp"
+			     android:layout_weight="1"
+			     android:background="#00000000"
+			     android:focusable="false"
+			     android:focusableInTouchMode="false"
+			     android:gravity="right"
+			     android:inputType="numberDecimal"
+			     android:text="@string/final_tip_edit_text"
+			     android:textColor="#ffffff" >
+
+			 </EditText>
+	        
+	    </LinearLayout>
+	    
+	    <LinearLayout
+	        android:id="@+id/finalBillLayout"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:background="@color/accents" >
+	        
+	        <TextView
+	            android:id="@+id/finalBillTextView"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginRight="8dp"
+	            android:paddingLeft="5dp"
+	            android:text="@string/final_text_view"
+	            android:textColor="@color/dark_essence"
+	            android:textSize="20sp" />
+			
+			 <EditText
+			     android:id="@+id/finalBillEditText"
+			     android:layout_width="0dp"
+			     android:layout_height="45dp"
+			     android:layout_weight="1"
+			     android:background="#00000000"
+			     android:focusable="false"
+			     android:focusableInTouchMode="false"
+			     android:inputType="numberDecimal"
+			     android:padding="5dp"
+			     android:text="@string/final_bill_edit_text"
+			     android:textColor="@color/dark_essence"
+			     android:textSize="@dimen/emph_big_result_text" >
+			
+			     <requestFocus />
+			 </EditText>
+	        
+	    </LinearLayout>
+		 
+	</LinearLayout>
+    
+    	
+</LinearLayout>  
